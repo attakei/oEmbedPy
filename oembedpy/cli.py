@@ -28,7 +28,12 @@ def cli(ctx: click.Context, version: bool, url: str):
         return
 
     # Fetch content to find meta tags.
-    resp = httpx.get(url)
+    try:
+        resp = httpx.get(url, follow_redirects=True)
+        resp.raise_for_status()
+    except httpx.HTTPError as exc:
+        click.echo(click.style(f"Failed to content URL for {exc}", fg="red"))
+        ctx.abort()
     soup = BeautifulSoup(resp.content, "html.parser")
     oembed_links = [
         elm
@@ -45,7 +50,12 @@ def cli(ctx: click.Context, version: bool, url: str):
         ctx.abort()
 
     # Fetch oEmbed content
-    resp = httpx.get(oembed_links[0]["href"])
+    try:
+        resp = httpx.get(oembed_links[0]["href"], follow_redirects=True)
+        resp.raise_for_status()
+    except httpx.HTTPError as exc:
+        click.echo(click.style(f"Failed to oEmbed URL for {exc}", fg="red"))
+        ctx.abort()
     data = resp.json()
 
     # Display data
