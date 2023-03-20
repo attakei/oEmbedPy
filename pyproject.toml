@@ -7,6 +7,10 @@ name = "oEmbedPy"
 authors = [{name = "Kazuya Takei", email = "myself@attakei.net"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
+dependencies = [
+  "beautifulsoup4",
+  "httpx",
+]
 dynamic = ["version", "description"]
 
 [project.optional-dependencies]
