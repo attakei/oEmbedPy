@@ -37,6 +37,14 @@ Commandline
    thumbnail_height: 360
    thumbnail_width:  400
 
+If you want JSON, use ``--json`` option.
+
+.. code-block:: console
+   :caption: Simple usage for author's video (omitted some output)
+
+   $ oEmbed.py --json 'https://www.youtube.com/watch?v=Oyh8nuaLASA'
+   {"title":"Yoshi (NES - Nint ..."}
+
 Contributing
 ============
 

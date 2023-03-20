@@ -18,9 +18,10 @@ from . import __version__
 @click.option(
     "--version", is_flag=True, default=False, help="Show version information and exit."
 )
+@click.option("--json", is_flag=True, default=False, help="Display JSON format.")
 @click.argument("url")
 @click.pass_context
-def cli(ctx: click.Context, version: bool, url: str):
+def cli(ctx: click.Context, version: bool, json: bool, url: str):
     """Fetch and display oEmbed parameters from oEmbed provider."""
     if version:
         click.echo(f"{ctx.info_name} v{__version__}")
@@ -59,9 +60,12 @@ def cli(ctx: click.Context, version: bool, url: str):
     data = resp.json()
 
     # Display data
-    keylen = max(len(k) for k in data.keys()) + 2
-    for k, v in data.items():
-        click.echo(f"{(k+':'):<{keylen}}{v}")
+    if json:
+        click.echo(resp.content)
+    else:
+        keylen = max(len(k) for k in data.keys()) + 2
+        for k, v in data.items():
+            click.echo(f"{(k+':'):<{keylen}}{v}")
 
 
 def main():
