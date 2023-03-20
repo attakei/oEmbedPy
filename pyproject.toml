@@ -9,6 +9,12 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
 dynamic = ["version", "description"]
 
+[project.optional-dependencies]
+cli = ["Click>=8"]
+
+[project.scripts]
+"oEmbed.py" = "oembedpy.cli:main"
+
 [project.urls]
 Home = "https://attakei-lab.github.io/oEmbedPy"
 

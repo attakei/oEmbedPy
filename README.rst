@@ -26,6 +26,8 @@ Usage
 Commandline
 -----------
 
+.. note:: It needs Click for using CLI. Run extra install 'cli'.
+
 .. code-block:: console
    :caption: Simple usage for author's video (omitted some output)
 
