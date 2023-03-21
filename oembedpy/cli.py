@@ -28,7 +28,6 @@ def cli(ctx: click.Context, version: bool, json: bool, url: str):
     if version:
         click.echo(f"{ctx.info_name} v{__version__}")
         ctx.exit(0)
-        return
 
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
