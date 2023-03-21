@@ -10,15 +10,11 @@ oEmbedPy
 Installation
 ============
 
-Currently, this is not uploaded to PyPI.
-
-Please clone and install.
+This is uploaded on PyPI.
 
 .. code-block:: console
 
-   git clone https://github.com/attakei-lab/oEmbedPy
-   cd oEmbedPy
-   pip install .
+   pip install oEmbedPy
 
 Usage
 =====
