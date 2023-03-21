@@ -1,15 +1,14 @@
 """Console entrypoint."""
 import sys
 
-import httpx
-from bs4 import BeautifulSoup
-
 try:
     import click
 except ModuleNotFoundError:
     msg = "oEmbedPy's CLI need Click. Please use extra install."
     sys.stderr.write(f"\033[31m{msg}\033[0m\n")
     sys.exit(1)
+import httpx
+from bs4 import BeautifulSoup
 
 from . import __version__
 
