@@ -45,11 +45,6 @@ If you want JSON, use ``--json`` option.
    $ oEmbed.py --json 'https://www.youtube.com/watch?v=Oyh8nuaLASA'
    {"title":"Yoshi (NES - Nint ..."}
 
-Contributing
-============
-
-(TBD)
-
 License
 =======
 
