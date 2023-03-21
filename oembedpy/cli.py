@@ -1,7 +1,6 @@
 """Console entrypoint."""
 import logging
 import sys
-import urllib.parse
 from typing import Literal, Optional
 
 try:
@@ -14,6 +13,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 from . import __version__
+from .consumer import ConsumerRequest
 
 logger = logging.getLogger(__name__)
 
@@ -74,16 +74,12 @@ def cli(
 
     # Fetch oEmbed content
     try:
-        parts = urllib.parse.urlparse(oembed_links[0]["href"])
-        qs = urllib.parse.parse_qs(parts.query)
+        req = ConsumerRequest.parse(oembed_links[0]["href"])
         if maxwidth:
-            qs["maxwidth"] = [maxwidth]
+            req.query.maxwidth = maxwidth
         if maxheight:
-            qs["maxheight"] = [maxheight]
-        new_parts = parts._replace(query=urllib.parse.urlencode(qs, True))
-        url = new_parts.geturl()
-        logger.debug(f"oEmbed Content URL is {url}")
-        resp = httpx.get(url, follow_redirects=True)
+            req.query.maxheight = maxheight
+        resp = req.get()
         resp.raise_for_status()
     except httpx.HTTPError as exc:
         logger.error(f"Failed to oEmbed URL for {exc}")
