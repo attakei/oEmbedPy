@@ -4,9 +4,24 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "oEmbedPy"
-authors = [{name = "Kazuya Takei", email = "myself@attakei.net"}]
+readme = "README.rst"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
-classifiers = ["License :: OSI Approved :: Apache Software License"]
+authors = [{name = "Kazuya Takei", email = "myself@attakei.net"}]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Internet",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Utilities",
+]
 dependencies = [
   "beautifulsoup4",
   "httpx",
@@ -20,7 +35,7 @@ cli = ["Click>=8"]
 "oEmbed.py" = "oembedpy.cli:main"
 
 [project.urls]
-Home = "https://attakei-lab.github.io/oEmbedPy"
+Home = "https://github.com/attakei-lab/oEmbedPy"
 
 [tool.flit.module]
 name = "oembedpy"
