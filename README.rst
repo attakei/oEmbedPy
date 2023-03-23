@@ -34,11 +34,11 @@ Simple usage for author's video (omitted some output).
    thumbnail_height: 360
    thumbnail_width:  400
 
-If you want JSON, use ``--json`` option.
+If you want JSON, use ``--foramt`` option.
 
 .. code-block:: console
 
-   $ oEmbed.py --json 'https://www.youtube.com/watch?v=Oyh8nuaLASA'
+   $ oEmbed.py --format=json 'https://www.youtube.com/watch?v=Oyh8nuaLASA'
    {"title":"Yoshi (NES - Nint ..."}
 
 License
