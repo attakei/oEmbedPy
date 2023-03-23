@@ -1,8 +1,8 @@
 """For consumer request."""
 import logging
 import urllib.parse
-from dataclasses import asdict, dataclass
-from typing import Optional, Tuple
+from dataclasses import dataclass
+from typing import Dict, Optional, Tuple
 
 import httpx
 from bs4 import BeautifulSoup
@@ -21,9 +21,16 @@ class RequestParameters:
     maxheight: Optional[int] = None
     format: Optional[str] = None
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, str]:
         """Make dict object from properties."""
-        return asdict(self)
+        data = {"url": self.url}
+        if self.maxwidth:
+            data["maxwidth"] = str(self.maxwidth)
+        if self.maxwidth:
+            data["maxheight"] = str(self.maxheight)
+        if self.format:
+            data["format"] = self.format
+        return data
 
 
 def parse(url: str) -> Tuple[str, RequestParameters]:
