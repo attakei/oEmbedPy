@@ -2,7 +2,7 @@
 import logging
 import sys
 import urllib.parse
-from typing import List
+from typing import List, Literal
 
 try:
     import click
@@ -17,12 +17,19 @@ from . import __version__
 
 logger = logging.getLogger(__name__)
 
+OUTPUT_FORMAT = Literal["text", "json"]
+
 
 @click.command
 @click.option(
     "--version", is_flag=True, default=False, help="Show version information and exit."
 )
-@click.option("--json", is_flag=True, default=False, help="Display JSON format.")
+@click.option(
+    "--format",
+    type=click.Choice(["text", "json"]),
+    default="text",
+    help="Display JSON format.",
+)
 @click.option(
     "--extra-params",
     "-e",
@@ -33,7 +40,11 @@ logger = logging.getLogger(__name__)
 @click.argument("url")
 @click.pass_context
 def cli(
-    ctx: click.Context, version: bool, json: bool, extra_params: List[str], url: str
+    ctx: click.Context,
+    version: bool,
+    format: OUTPUT_FORMAT,
+    extra_params: List[str],
+    url: str,
 ):
     """Fetch and display oEmbed parameters from oEmbed provider."""
     if version:
@@ -84,7 +95,7 @@ def cli(
     data = resp.json()
 
     # Display data
-    if json:
+    if format == "json":
         logger.debug("Display as raw JSON")
         click.echo(resp.content)
     else:
