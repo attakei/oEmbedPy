@@ -2,6 +2,16 @@
 Change logs
 ===========
 
+v0.2.1
+======
+
+:date: 2023-03-24 (JST)
+
+Fixes
+-----
+
+* To work when ``--maxwidth`` or ``--maxheight`` do not set.
+
 v0.2.0
 ======
 
