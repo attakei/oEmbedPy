@@ -2,7 +2,7 @@
 import logging
 import sys
 import urllib.parse
-from typing import List, Literal
+from typing import Literal, Optional
 
 try:
     import click
@@ -30,21 +30,17 @@ OUTPUT_FORMAT = Literal["text", "json"]
     default="text",
     help="Display JSON format.",
 )
-@click.option(
-    "--extra-params",
-    "-e",
-    type=str,
-    multiple=True,
-    help="Appendix request parameter for oEmbed provider.",
-)
+@click.option("--maxwidth", type=int, help="Max width for oEmbed content.")
+@click.option("--maxheight", type=int, help="Max height for oEmbed content.")
 @click.argument("url")
 @click.pass_context
 def cli(
     ctx: click.Context,
     version: bool,
-    format: OUTPUT_FORMAT,
-    extra_params: List[str],
     url: str,
+    format: OUTPUT_FORMAT,
+    maxwidth: Optional[int] = None,
+    maxheight: Optional[int] = None,
 ):
     """Fetch and display oEmbed parameters from oEmbed provider."""
     if version:
@@ -80,9 +76,10 @@ def cli(
     try:
         parts = urllib.parse.urlparse(oembed_links[0]["href"])
         qs = urllib.parse.parse_qs(parts.query)
-        for param in extra_params:
-            k, v = param.split("=")
-            qs[k] = [v]
+        if maxwidth:
+            qs["maxwidth"] = [maxwidth]
+        if maxheight:
+            qs["maxheight"] = [maxheight]
         new_parts = parts._replace(query=urllib.parse.urlencode(qs, True))
         url = new_parts.geturl()
         logger.debug(f"oEmbed Content URL is {url}")
