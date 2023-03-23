@@ -76,9 +76,9 @@ def cli(
     try:
         req = ConsumerRequest.parse(oembed_links[0]["href"])
         if maxwidth:
-            req.query.maxwidth = maxwidth
+            req.params.maxwidth = maxwidth
         if maxheight:
-            req.query.maxheight = maxheight
+            req.params.maxheight = maxheight
         resp = req.get()
         resp.raise_for_status()
     except httpx.HTTPError as exc:
