@@ -3,6 +3,8 @@ import logging
 import sys
 from typing import Literal, Optional
 
+from oembedpy.errors import URLNotFound
+
 try:
     import click
 except ModuleNotFoundError:
@@ -10,10 +12,9 @@ except ModuleNotFoundError:
     sys.stderr.write(f"\033[31m{msg}\033[0m\n")
     sys.exit(1)
 import httpx
-from bs4 import BeautifulSoup
 
 from . import __version__
-from .consumer import parse
+from .consumer import discover, parse
 
 logger = logging.getLogger(__name__)
 
@@ -50,36 +51,19 @@ def cli(
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
     try:
-        resp = httpx.get(url, follow_redirects=True)
-        resp.raise_for_status()
-    except httpx.HTTPError as exc:
-        logger.error(f"Failed to content URL for {exc}")
-        click.echo(click.style(f"Failed to content URL for {exc}", fg="red"))
-        ctx.abort()
-    soup = BeautifulSoup(resp.content, "html.parser")
-    oembed_links = [
-        elm
-        for elm in soup.find_all("link", rel="alternate")
-        if "type" in elm.attrs and elm["type"].endswith("application/json+oembed")
-    ]
-    logger.debug(f"Found {len(oembed_links)} URLs for oEmbed")
-    if not oembed_links:
-        click.echo(
-            click.style(
-                "URL is not provided oEmbed or is supported by JSON style response.",
-                fg="yellow",
-            )
-        )
+        oembed_url = discover(url)
+    except URLNotFound as err:
+        logger.warn(f"oEmbed API is not found from URL: {err}")
         ctx.abort()
 
     # Fetch oEmbed content
     try:
-        url, params = parse(oembed_links[0]["href"])
+        api_url, params = parse(oembed_url)
         if maxwidth:
             params.maxwidth = maxwidth
         if maxheight:
             params.maxheight = maxheight
-        resp = httpx.get(url, params=params.to_dict())
+        resp = httpx.get(api_url, params=params.to_dict())
         resp.raise_for_status()
     except httpx.HTTPError as exc:
         logger.error(f"Failed to oEmbed URL for {exc}")
