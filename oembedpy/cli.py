@@ -13,7 +13,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 from . import __version__
-from .consumer import ConsumerRequest
+from .consumer import parse
 
 logger = logging.getLogger(__name__)
 
@@ -74,12 +74,12 @@ def cli(
 
     # Fetch oEmbed content
     try:
-        req = ConsumerRequest.parse(oembed_links[0]["href"])
+        url, params = parse(oembed_links[0]["href"])
         if maxwidth:
-            req.params.maxwidth = maxwidth
+            params.maxwidth = maxwidth
         if maxheight:
-            req.params.maxheight = maxheight
-        resp = req.get()
+            params.maxheight = maxheight
+        resp = httpx.get(url, params=params.to_dict())
         resp.raise_for_status()
     except httpx.HTTPError as exc:
         logger.error(f"Failed to oEmbed URL for {exc}")
