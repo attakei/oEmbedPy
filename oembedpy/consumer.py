@@ -7,7 +7,7 @@ from typing import Dict, Optional, Tuple
 import httpx
 from bs4 import BeautifulSoup
 
-from . import errors
+from . import errors, types
 
 logger = logging.getLogger(__name__)
 
@@ -75,3 +75,14 @@ def discover(url: str) -> str:
         raise errors.URLNotFound(msg)
 
     return oembed_links[0]["href"]
+
+
+def fetch_content(url: str, params: RequestParameters) -> types.Content:
+    """Call API and generate content object."""
+    resp = httpx.get(url, params=params.to_dict())
+    resp.raise_for_status()
+    data = resp.json()
+    Type = data.get("type", "").title()
+    if not (Type and hasattr(types, Type)):
+        raise ValueError("Invalid type")
+    return getattr(types, data["type"].title())(**data)

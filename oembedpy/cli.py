@@ -1,4 +1,5 @@
 """Console entrypoint."""
+import dataclasses
 import logging
 import sys
 from typing import Literal, Optional
@@ -14,7 +15,7 @@ except ModuleNotFoundError:
 import httpx
 
 from . import __version__
-from .consumer import discover, parse
+from .consumer import discover, fetch_content, parse
 
 logger = logging.getLogger(__name__)
 
@@ -63,20 +64,19 @@ def cli(
             params.maxwidth = maxwidth
         if maxheight:
             params.maxheight = maxheight
-        resp = httpx.get(api_url, params=params.to_dict())
-        resp.raise_for_status()
+        content = fetch_content(api_url, params=params)
     except httpx.HTTPError as exc:
         logger.error(f"Failed to oEmbed URL for {exc}")
         click.echo(click.style(f"Failed to oEmbed URL for {exc}", fg="red"))
         ctx.abort()
-    data = resp.json()
 
     # Display data
     if format == "json":
         logger.debug("Display as raw JSON")
-        click.echo(resp.content)
+        click.echo(dataclasses.asdict(content))
     else:
         logger.debug("Display as formatted text")
+        data = dataclasses.asdict(content)
         keylen = max(len(k) for k in data.keys()) + 2
         for k, v in data.items():
             click.echo(f"{(k+':'):<{keylen}}{v}")
