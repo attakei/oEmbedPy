@@ -35,6 +35,9 @@ doc = [
   "furo",
   "Sphinx",
 ]
+sphinx = [
+  "sphinx",
+]
 test = [
   "pytest==7.*",
   "pytest-httpx==0.21.*",
