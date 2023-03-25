@@ -27,4 +27,5 @@ Included features
 
    commandline
    integrations/sphinx
+   api
    changelogs
