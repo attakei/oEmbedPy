@@ -2,6 +2,38 @@
 Change logs
 ===========
 
+v0.3.0
+======
+
+:date: 2023-02-26 (JST)
+
+For Sphinx
+
+Breaking changes
+----------------
+
+* CLI options are changed.
+
+  * ``--maxwidth`` to ``--max-width``
+  * ``--maxheight`` to ``--max-height``
+
+Features
+--------
+
+* Support XML format content.
+* Define Sphinx extension.
+
+Fixes
+-----
+
+* ``maxheight`` use in API request correctly.
+
+Misc
+----
+
+* Manage documentation. See `RTD <http://oembedpy.rtfd.io/>`_
+* Add testcases.
+
 v0.2.1
 ======
 
