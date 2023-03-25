@@ -17,17 +17,17 @@ class RequestParameters:
     """Supported query parameters."""
 
     url: str
-    maxwidth: Optional[int] = None
-    maxheight: Optional[int] = None
     format: Optional[str] = None
+    max_width: Optional[int] = None
+    max_height: Optional[int] = None
 
     def to_dict(self) -> Dict[str, str]:
         """Make dict object from properties."""
         data = {"url": self.url}
-        if self.maxwidth:
-            data["maxwidth"] = str(self.maxwidth)
-        if self.maxheight:
-            data["maxheight"] = str(self.maxheight)
+        if self.max_width:
+            data["maxwidth"] = str(self.max_width)
+        if self.max_height:
+            data["maxheight"] = str(self.max_height)
         if self.format:
             data["format"] = self.format
         return data
@@ -41,10 +41,10 @@ def parse(url: str) -> Tuple[str, RequestParameters]:
     parts = urllib.parse.urlparse(url)
     qs = urllib.parse.parse_qs(parts.query)
     params = RequestParameters(url=qs["url"][0])
-    if "maxwidth" in qs:
-        params.maxwidth = int(qs["maxwidth"][0])
-    if "maxheight" in qs:
-        params.maxheight = int(qs["maxheight"][0])
+    if "max_width" in qs:
+        params.max_width = int(qs["max_width"][0])
+    if "max_height" in qs:
+        params.max_height = int(qs["max_height"][0])
     if "format" in qs:
         params.format = qs["format"][0]
     return f"{parts.scheme}://{parts.netloc}{parts.path}", params

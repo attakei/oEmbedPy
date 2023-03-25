@@ -32,8 +32,8 @@ OUTPUT_FORMAT = Literal["text", "json"]
     default="text",
     help="Display JSON format.",
 )
-@click.option("--maxwidth", type=int, help="Max width for oEmbed content.")
-@click.option("--maxheight", type=int, help="Max height for oEmbed content.")
+@click.option("--max-width", type=int, help="Max width for oEmbed content.")
+@click.option("--max-height", type=int, help="Max height for oEmbed content.")
 @click.argument("url")
 @click.pass_context
 def cli(
@@ -41,8 +41,8 @@ def cli(
     version: bool,
     url: str,
     format: OUTPUT_FORMAT,
-    maxwidth: Optional[int] = None,
-    maxheight: Optional[int] = None,
+    max_width: Optional[int] = None,
+    max_height: Optional[int] = None,
 ):
     """Fetch and display oEmbed parameters from oEmbed provider."""
     if version:
@@ -60,10 +60,10 @@ def cli(
     # Fetch oEmbed content
     try:
         api_url, params = parse(oembed_url)
-        if maxwidth:
-            params.maxwidth = maxwidth
-        if maxheight:
-            params.maxheight = maxheight
+        if max_width:
+            params.max_width = max_width
+        if max_height:
+            params.max_height = max_height
         content = fetch_content(api_url, params=params)
     except httpx.HTTPError as exc:
         logger.error(f"Failed to oEmbed URL for {exc}")

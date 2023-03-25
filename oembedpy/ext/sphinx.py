@@ -33,9 +33,9 @@ class OembedDirective(Directive):  # noqa: D101
         url = consumer.discover(self.arguments[0])
         url, params = consumer.parse(url)
         if "maxwidth" in self.options:
-            params.maxwidth = self.options["maxwidth"]
+            params.max_width = self.options["maxwidth"]
         if "maxheight" in self.options:
-            params.maxheight = self.options["maxheight"]
+            params.max_height = self.options["maxheight"]
         node = oembed()
         node["content"] = consumer.fetch_content(url, params)
         return [

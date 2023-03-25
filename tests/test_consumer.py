@@ -11,13 +11,13 @@ class TestFor_RequestParamaters:
         assert data["url"] == "http://example.com"
         assert "format" not in data
 
-    def test__to_dict_with_maxwidth(self):
-        params = consumer.RequestParameters(url="http://example.com", maxwidth=100)
+    def test__to_dict_with_max_width(self):
+        params = consumer.RequestParameters(url="http://example.com", max_width=100)
         data = params.to_dict()
         assert data["maxwidth"] == "100"
 
-    def test__to_dict_with_maxheight(self):
-        params = consumer.RequestParameters(url="http://example.com", maxheight=100)
+    def test__to_dict_with_max_height(self):
+        params = consumer.RequestParameters(url="http://example.com", max_height=100)
         data = params.to_dict()
         assert data["maxheight"] == "100"
 
