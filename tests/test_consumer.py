@@ -1,4 +1,6 @@
 # flake8: noqa
+import pytest
+
 from oembedpy import consumer, types
 
 
@@ -23,6 +25,70 @@ class TestFor_fetch_content:
         )
         assert isinstance(content, types.Video)
         assert content.author_name == "attakei"
+
+    def test_xml_content(self, httpx_mock):
+        httpx_mock.add_response(
+            content=b"""
+                <?xml version="1.0" encoding="utf-8"?>
+                <oembed>
+                    <title>Example</title>
+                    <author_name>attakei</author_name>
+                    <author_url>https://www.youtube.com/@attakei</author_url>
+                    <type>video</type>
+                    <height>113</height>
+                    <width>200</width>
+                    <version>1.0</version>
+                    <html>&lt;iframe width=&quot;200&quot; height=&quot;113&quot; src=&quot;https://example.com/&quot;&gt;&lt;/iframe&gt;</html>
+                </oembed>
+            """.strip(),
+            headers={"Content-Type": "application/xml"},
+        )
+        content = consumer.fetch_content(
+            "https://www.youtube.com/oembed",
+            consumer.RequestParameters(
+                format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
+            ),
+        )
+        assert isinstance(content, types.Video)
+        assert content.author_name == "attakei"
+
+    def test_invalid_format(self, httpx_mock):
+        httpx_mock.add_response(html="<html><head></head><doby></body></html>")
+        with pytest.raises(ValueError):
+            consumer.fetch_content(
+                "https://www.youtube.com/oembed",
+                consumer.RequestParameters(
+                    format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
+                ),
+            )
+
+    def test_invalid_json(self, httpx_mock):
+        httpx_mock.add_response(json={})
+        with pytest.raises(ValueError):
+            consumer.fetch_content(
+                "https://www.youtube.com/oembed",
+                consumer.RequestParameters(
+                    format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
+                ),
+            )
+
+    def test_invalid_xml(self, httpx_mock):
+        httpx_mock.add_response(
+            content=b"""
+                <?xml version="1.0" encoding="utf-8"?>
+                <x>
+                    <title>Example</title>
+                </x>
+            """.strip(),
+            headers={"Content-Type": "application/xml"},
+        )
+        with pytest.raises(ValueError):
+            consumer.fetch_content(
+                "https://www.youtube.com/oembed",
+                consumer.RequestParameters(
+                    format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
+                ),
+            )
 
 
 class TestFor_discover:

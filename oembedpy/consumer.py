@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
 
 import httpx
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from . import errors, types
 
@@ -78,10 +78,30 @@ def discover(url: str) -> str:
 
 
 def fetch_content(url: str, params: RequestParameters) -> types.Content:
-    """Call API and generate content object."""
+    """Call API and generate content object.
+
+    This accept only response that has content-type  header explicited as json or xml.
+    * OK: ``application/json``
+    * OK: ``text/xml``
+    * NG: ``text/plain`` (even if body is JSON string)
+    """
     resp = httpx.get(url, params=params.to_dict())
     resp.raise_for_status()
-    data = resp.json()
+    if resp.headers.get("content-type", "").endswith("/json"):
+        logging.debug("Parse JSON content.")
+        data = resp.json()
+    elif resp.headers.get("content-type", "").endswith("/xml"):
+        logging.debug("Parse XML content.")
+        soup = BeautifulSoup(resp.content, "lxml-xml")
+        data = {}
+        if not soup.oembed:
+            raise ValueError("Invalid XML format.")
+        for elm in soup.oembed.children:
+            if not isinstance(elm, Tag):
+                continue
+            data[elm.name] = elm.string.strip()
+    else:
+        raise ValueError("oEmbed content must be only JSON or XML.")
     Type = data.get("type", "").title()
     if not (Type and hasattr(types, Type)):
         raise ValueError("Invalid type")

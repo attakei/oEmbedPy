@@ -25,6 +25,7 @@ classifiers = [
 dependencies = [
   "beautifulsoup4",
   "httpx",
+  "lxml",
 ]
 dynamic = ["version", "description"]
 
