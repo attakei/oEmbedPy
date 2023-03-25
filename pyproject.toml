@@ -30,7 +30,10 @@ dynamic = ["version", "description"]
 
 [project.optional-dependencies]
 cli = ["Click>=8"]
-test = ["pytest==7.*"]
+test = [
+  "pytest==7.*",
+  "pytest-httpx==0.21.*",
+]
 
 [project.scripts]
 "oEmbed.py" = "oembedpy.cli:main"
