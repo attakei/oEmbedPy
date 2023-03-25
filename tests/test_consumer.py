@@ -44,7 +44,49 @@ class TestFor_discover:
         url = consumer.discover("https://example.com/content")
         assert url.startswith("https://example.com/oembed?format=json")
 
+    def test_xml_content(self, httpx_mock):
+        html = """
+            <html>
+                <head>
+                    <link
+                        rel="alternate"
+                        type="text/xml+oembed"
+                        href="https://example.com/oembed?format=xml&amp;url=https%3A%2F%2Fexample.com%2Fcontent"
+                        title="Example"
+                    >
+                </head>
+                <body></body>
+            </html>
+        """
+        httpx_mock.add_response(text=html)
+        url = consumer.discover("https://example.com/content")
+        assert url.startswith("https://example.com/oembed?format=xml")
+
     def test_json_from_multiple(self, httpx_mock):
+        html = """
+            <html>
+                <head>
+                    <link
+                        rel="alternate"
+                        type="application/json+oembed"
+                        href="https://example.com/oembed?format=json&amp;url=https%3A%2F%2Fexample.com%2Fcontent" 
+                        title="Example"
+                    >
+                    <link
+                        rel="alternate"
+                        type="text/xml+oembed"
+                        href="https://example.com/oembed?format=xml&amp;url=https%3A%2F%2Fexample.com%2Fcontent"
+                        title="Example"
+                    >
+                </head>
+                <body></body>
+            </html>
+        """
+        httpx_mock.add_response(text=html)
+        url = consumer.discover("https://example.com/content")
+        assert url.startswith("https://example.com/oembed?format=json")
+
+    def test_xml_from_multiple(self, httpx_mock):
         html = """
             <html>
                 <head>
@@ -66,4 +108,4 @@ class TestFor_discover:
         """
         httpx_mock.add_response(text=html)
         url = consumer.discover("https://example.com/content")
-        assert url.startswith("https://example.com/oembed?format=json")
+        assert url.startswith("https://example.com/oembed?format=xml")

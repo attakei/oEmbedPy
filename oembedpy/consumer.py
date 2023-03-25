@@ -66,7 +66,7 @@ def discover(url: str) -> str:
     oembed_links = [
         elm
         for elm in soup.find_all("link", rel="alternate")
-        if "type" in elm.attrs and elm["type"].endswith("application/json+oembed")
+        if "type" in elm.attrs and elm["type"].endswith("+oembed")
     ]
     logger.debug(f"Found {len(oembed_links)} URLs for oEmbed")
     if not oembed_links:
