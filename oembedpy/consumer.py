@@ -26,7 +26,7 @@ class RequestParameters:
         data = {"url": self.url}
         if self.maxwidth:
             data["maxwidth"] = str(self.maxwidth)
-        if self.maxwidth:
+        if self.maxheight:
             data["maxheight"] = str(self.maxheight)
         if self.format:
             data["format"] = self.format

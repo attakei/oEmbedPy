@@ -4,6 +4,29 @@ import pytest
 from oembedpy import consumer, types
 
 
+class TestFor_RequestParamaters:
+    def test__to_dict_default_only(self):
+        params = consumer.RequestParameters(url="http://example.com")
+        data = params.to_dict()
+        assert data["url"] == "http://example.com"
+        assert "format" not in data
+
+    def test__to_dict_with_maxwidth(self):
+        params = consumer.RequestParameters(url="http://example.com", maxwidth=100)
+        data = params.to_dict()
+        assert data["maxwidth"] == "100"
+
+    def test__to_dict_with_maxheight(self):
+        params = consumer.RequestParameters(url="http://example.com", maxheight=100)
+        data = params.to_dict()
+        assert data["maxheight"] == "100"
+
+    def test__to_dict_with_format(self):
+        params = consumer.RequestParameters(url="http://example.com", format="json")
+        data = params.to_dict()
+        assert data["format"] == "json"
+
+
 class TestFor_fetch_content:
     content_json = {
         "type": "video",
