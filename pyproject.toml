@@ -31,6 +31,9 @@ dynamic = ["version", "description"]
 
 [project.optional-dependencies]
 cli = ["Click>=8"]
+doc = [
+  "Sphinx",
+]
 test = [
   "pytest==7.*",
   "pytest-httpx==0.21.*",
