@@ -26,3 +26,4 @@ Included features
    :caption: Contents:
 
    commandline
+   integrations/sphinx
