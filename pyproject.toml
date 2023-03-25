@@ -32,6 +32,7 @@ dynamic = ["version", "description"]
 [project.optional-dependencies]
 cli = ["Click>=8"]
 doc = [
+  "furo",
   "Sphinx",
 ]
 test = [
