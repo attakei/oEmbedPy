@@ -66,4 +66,4 @@ jobs:
           pip install '.[doc]'
       - name: Run tests
         run: |
-          make -C docs apidoc dirhtml
+          make -C docs apidoc linkcheck dirhtml
