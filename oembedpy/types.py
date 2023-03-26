@@ -3,7 +3,7 @@
 All typed classes are based from oEmbed specs.
 Please see https://oembed.com/
 """
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from inspect import signature
 from typing import Any, Dict, Optional, Type, TypeVar, Union
 
@@ -28,6 +28,14 @@ class _Required:
             else:
                 extra[k] = v
         return cls(**cls_kwargs, _extra=extra)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to flat dict."""
+        data = asdict(self)
+        del data["_extra"]
+        for k, v in self._extra.items():
+            data[k] = v
+        return data
 
 
 @dataclass

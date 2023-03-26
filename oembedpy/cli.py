@@ -1,5 +1,4 @@
 """Console entrypoint."""
-import dataclasses
 import logging
 import sys
 from typing import Literal, Optional
@@ -70,10 +69,10 @@ def cli(
     # Display data
     if format == "json":
         logger.debug("Display as raw JSON")
-        click.echo(dataclasses.asdict(content))
+        click.echo(content.to_dict())
     else:
         logger.debug("Display as formatted text")
-        data = dataclasses.asdict(content)
+        data = content.to_dict()
         keylen = max(len(k) for k in data.keys()) + 2
         for k, v in data.items():
             click.echo(f"{(k+':'):<{keylen}}{v}")
