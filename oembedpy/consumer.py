@@ -60,4 +60,4 @@ def fetch_content(url: str, params: RequestParameters) -> types.Content:
     Type = data.get("type", "").title()
     if not (Type and hasattr(types, Type)):
         raise ValueError("Invalid type")
-    return getattr(types, data["type"].title())(**data)
+    return getattr(types, data["type"].title()).from_dict(data)

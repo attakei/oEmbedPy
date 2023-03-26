@@ -14,7 +14,7 @@ except ModuleNotFoundError as err:
     logging.error(msg)
     raise err
 
-from oembedpy import consumer
+from oembedpy import consumer, discovery
 
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
@@ -30,8 +30,7 @@ class OembedDirective(Directive):  # noqa: D101
     }
 
     def run(self):  # noqa: D102
-        url = consumer.discover(self.arguments[0])
-        url, params = consumer.parse(url)
+        url, params = discovery.find_from_content(self.arguments[0])
         if "maxwidth" in self.options:
             params.max_width = self.options["maxwidth"]
         if "maxheight" in self.options:
