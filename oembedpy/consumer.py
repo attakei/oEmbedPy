@@ -42,10 +42,11 @@ def fetch_content(url: str, params: RequestParameters) -> types.Content:
     """
     resp = httpx.get(url, params=params.to_dict())
     resp.raise_for_status()
-    if resp.headers.get("content-type", "").endswith("/json"):
+    content_type = resp.headers.get("content-type", "").split(";")[0]  # Exclude chaset
+    if content_type.endswith("/json"):
         logging.debug("Parse JSON content.")
         data = resp.json()
-    elif resp.headers.get("content-type", "").endswith("/xml"):
+    elif content_type.endswith("/xml"):
         logging.debug("Parse XML content.")
         soup = BeautifulSoup(resp.content, "lxml-xml")
         data = {}
