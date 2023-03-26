@@ -2,6 +2,24 @@
 Change logs
 ===========
 
+v0.3.1
+======
+
+:date: 2023-03-27 (JST)
+
+Bug fix for type behavior
+
+Fixes
+-----
+
+* If API response includes un-excepted optionals, Pack ``_extra``
+
+Misc
+----
+
+* Change internal code (delegate discovery)
+* Add apidoc into documentation
+
 v0.3.0
 ======
 
