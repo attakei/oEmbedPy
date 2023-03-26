@@ -4,8 +4,6 @@ import logging
 import sys
 from typing import Literal, Optional
 
-from oembedpy.errors import URLNotFound
-
 try:
     import click
 except ModuleNotFoundError:
@@ -14,8 +12,8 @@ except ModuleNotFoundError:
     sys.exit(1)
 import httpx
 
-from . import __version__
-from .consumer import discover, fetch_content, parse
+from . import __version__, discovery
+from .consumer import fetch_content
 
 logger = logging.getLogger(__name__)
 
@@ -52,14 +50,13 @@ def cli(
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
     try:
-        oembed_url = discover(url)
-    except URLNotFound as err:
+        api_url, params = discovery.find_from_content(url)
+    except Exception as err:
         logger.warn(f"oEmbed API is not found from URL: {err}")
         ctx.abort()
 
     # Fetch oEmbed content
     try:
-        api_url, params = parse(oembed_url)
         if max_width:
             params.max_width = max_width
         if max_height:
