@@ -9,7 +9,7 @@ from oembedpy import provider
 @pytest.mark.webtest
 def test_configure_from_http():
     data_json = httpx.get("https://oembed.com/providers.json").json()
-    provider.ProviderRegistry.from_json(data_json)
+    provider.ProviderRegistry.from_dict(data_json)
 
 
 class TestFor_Endpoint:

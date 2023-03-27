@@ -17,7 +17,7 @@ class Endpoint:
     formats: Optional[List[str]] = None
 
     @classmethod
-    def from_json(cls, data: dict) -> "Endpoint":
+    def from_dict(cls, data: dict) -> "Endpoint":
         """Initialize object.
 
         JSON data format comples for style of https://oembed.com/providers.json
@@ -56,7 +56,7 @@ class Provider:
     endpoints: List[Endpoint]
 
     @classmethod
-    def from_json(cls, data: dict) -> "Provider":
+    def from_dict(cls, data: dict) -> "Provider":
         """Initialize object.
 
         JSON data format comples for style of https://oembed.com/providers.json
@@ -64,7 +64,7 @@ class Provider:
         return cls(
             name=data["provider_name"],
             url=data["provider_url"],
-            endpoints=[Endpoint.from_json(d) for d in data["endpoints"]],
+            endpoints=[Endpoint.from_dict(d) for d in data["endpoints"]],
         )
 
     def to_dict(self) -> dict:
@@ -90,10 +90,10 @@ class ProviderRegistry:
     providers: List[Provider]
 
     @classmethod
-    def from_json(cls, data: list) -> "ProviderRegistry":
+    def from_dict(cls, data: list) -> "ProviderRegistry":
         """Initialize object.
 
         JSON data format comples for style of https://oembed.com/providers.json
         """
-        providers = [Provider.from_json(d) for d in data]
+        providers = [Provider.from_dict(d) for d in data]
         return cls(providers=providers)

@@ -54,7 +54,7 @@ def find_from_registry(
     """Find endpoint matched for content from registry."""
     if registry is None:
         resp = httpx.get("https://oembed.com/providers.json")
-        registry = ProviderRegistry.from_json(resp.json())
+        registry = ProviderRegistry.from_dict(resp.json())
 
     for provider in registry.providers:
         api_url = provider.find_endpoint(url)
