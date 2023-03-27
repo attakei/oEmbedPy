@@ -1,6 +1,6 @@
 """eEmbed provider definiitons.
 
-This module is complied for style of https://oembed.com/providers.josn
+This module is complied for style of https://oembed.com/providers.json
 """
 from dataclasses import dataclass
 from fnmatch import fnmatch
