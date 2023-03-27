@@ -14,6 +14,7 @@ except ModuleNotFoundError as err:
     logging.error(msg)
     raise err
 
+from oembedpy import __version__
 from oembedpy.application import Oembed
 
 _oembed: Oembed
@@ -61,3 +62,8 @@ def setup(app: Sphinx):  # noqa: D103
         html=(visit_oembed_node, depart_oembed_node),
     )
     _oembed = Oembed()
+    return {
+        "version": __version__,
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
+    }
