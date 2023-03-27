@@ -38,6 +38,7 @@ jobs:
       - name: Run tests
         run: |
           pytest
+          pytest -m webtest
   buildtest:
     runs-on: ubuntu-latest
     steps:
