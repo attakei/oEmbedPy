@@ -7,6 +7,18 @@ oEmbedPy
    This is yet experimental product.
    It will be implemeted needy features incrementaly.
 
+Overview
+========
+
+This is `oEmbed <https://oembed.com>`_ client for Python.
+
+Features
+========
+
+* Simple usage
+* Python 3.x native
+* Multiple endpoint discovery
+
 Installation
 ============
 
@@ -18,6 +30,18 @@ This is uploaded on PyPI.
 
 Usage
 =====
+
+Library
+-------
+
+.. code-block:: pycon
+
+    >>> from oembedpy.application import Oembed
+
+    >>> oembed = Oembed()
+    >>> content = oembed.fetch("https://twitter.com/attakei")
+    >>> print(content.type)
+    rich
 
 Commandline
 -----------
@@ -40,6 +64,12 @@ If you want JSON, use ``--foramt`` option.
 
    $ oEmbed.py --format=json 'https://www.youtube.com/watch?v=Oyh8nuaLASA'
    {"title":"Yoshi (NES - Nint ..."}
+
+Others
+------
+
+This has extension for easy-using.
+Please see `documentation <https://oEmbedPy.rtfd.io>`_.
 
 License
 =======
