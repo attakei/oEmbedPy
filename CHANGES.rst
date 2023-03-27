@@ -2,6 +2,21 @@
 Change logs
 ===========
 
+v0.4.0
+======
+
+Support easy-using as library
+
+:date: 2023-03-28 (JST)
+
+Features
+========
+
+* Support https://oembed.com/providers.json
+
+  * First, find endpoint from JSON.
+  * Second, find endpoint from content HTML.
+
 v0.3.2
 ======
 
