@@ -14,7 +14,9 @@ except ModuleNotFoundError as err:
     logging.error(msg)
     raise err
 
-from oembedpy import consumer, discovery
+from oembedpy.application import Oembed
+
+_oembed: Oembed
 
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
@@ -30,17 +32,13 @@ class OembedDirective(Directive):  # noqa: D101
     }
 
     def run(self):  # noqa: D102
-        url = self.arguments[0]
-        try:
-            api_url, params = discovery.find_from_registry(url)
-        except ValueError:  # TODO: Split error case?
-            api_url, params = discovery.find_from_content(url)
-        if "maxwidth" in self.options:
-            params.max_width = self.options["maxwidth"]
-        if "maxheight" in self.options:
-            params.max_height = self.options["maxheight"]
+        oembed_kwags = {
+            "url": self.arguments[0],
+            "max_width": self.options.get("maxwidth", None),
+            "max_height": self.options.get("maxheight", None),
+        }
         node = oembed()
-        node["content"] = consumer.fetch_content(api_url, params)
+        node["content"] = _oembed.fetch(**oembed_kwags)
         return [
             node,
         ]
@@ -56,8 +54,10 @@ def depart_oembed_node(self, node):  # noqa: D103
 
 
 def setup(app: Sphinx):  # noqa: D103
+    global _oembed
     app.add_directive("oembed", OembedDirective)
     app.add_node(
         oembed,
         html=(visit_oembed_node, depart_oembed_node),
     )
+    _oembed = Oembed()

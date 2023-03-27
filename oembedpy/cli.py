@@ -9,10 +9,8 @@ except ModuleNotFoundError:
     msg = "oEmbedPy's CLI need Click. Please use extra install."
     sys.stderr.write(f"\033[31m{msg}\033[0m\n")
     sys.exit(1)
-import httpx
 
-from . import __version__, discovery
-from .consumer import fetch_content
+from . import __version__, application
 
 logger = logging.getLogger(__name__)
 
@@ -48,25 +46,11 @@ def cli(
 
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
+    oembed = application.Oembed()
     try:
-        api_url, params = discovery.find_from_registry(url)
-    except ValueError:  # TODO: Split error case?
-        logger.warn("It is not found from registry. Try from content.")
-        api_url, params = discovery.find_from_content(url)
+        content = oembed.fetch(url, max_width, max_height)
     except Exception as err:
-        logger.warn(f"oEmbed API is not found from URL: {err}")
-        ctx.abort()
-
-    # Fetch oEmbed content
-    try:
-        if max_width:
-            params.max_width = max_width
-        if max_height:
-            params.max_height = max_height
-        content = fetch_content(api_url, params=params)
-    except httpx.HTTPError as exc:
-        logger.error(f"Failed to oEmbed URL for {exc}")
-        click.echo(click.style(f"Failed to oEmbed URL for {exc}", fg="red"))
+        click.echo(click.style(f"Failed to oEmbed URL for {err}", fg="red"))
         ctx.abort()
 
     # Display data
