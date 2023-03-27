@@ -49,6 +49,9 @@ def cli(
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
     try:
+        api_url, params = discovery.find_from_registry(url)
+    except ValueError:  # TODO: Split error case?
+        logger.warn("It is not found from registry. Try from content.")
         api_url, params = discovery.find_from_content(url)
     except Exception as err:
         logger.warn(f"oEmbed API is not found from URL: {err}")

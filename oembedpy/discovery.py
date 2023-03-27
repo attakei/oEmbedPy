@@ -4,12 +4,13 @@ This provides features to find oEmbed provider of contents.
 """
 import logging
 import urllib.parse
-from typing import Tuple
+from typing import Optional, Tuple
 
 import httpx
 from bs4 import BeautifulSoup
 
 from .consumer import RequestParameters
+from .provider import ProviderRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -45,3 +46,21 @@ def find_from_content(url: str) -> Tuple[str, RequestParameters]:
     if "format" in qs:
         params.format = qs["format"][0]
     return f"{parts.scheme}://{parts.netloc}{parts.path}", params
+
+
+def find_from_registry(
+    url: str, registry: Optional[ProviderRegistry] = None
+) -> Tuple[str, RequestParameters]:
+    """Find endpoint matched for content from registry."""
+    if registry is None:
+        resp = httpx.get("https://oembed.com/providers.json")
+        registry = ProviderRegistry.from_json(resp.json())
+
+    for provider in registry.providers:
+        api_url = provider.find_endpoint(url)
+        if api_url:
+            return api_url, RequestParameters(url=url)
+
+    msg = "Endpoint is not found from registry."
+    logger.warning(msg)
+    raise ValueError(msg)

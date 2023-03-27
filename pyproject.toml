@@ -54,4 +54,8 @@ Home = "https://github.com/attakei-lab/oEmbedPy"
 name = "oembedpy"
 
 [tool.pytest.ini_options]
-addopts = "--cov=oembedpy"
+addopts = "--cov=oembedpy -m 'not webtest'"
+markers = [
+  "webtest: Marks to use real HTTP connection",
+
+]
