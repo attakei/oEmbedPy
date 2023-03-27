@@ -2,6 +2,17 @@
 Change logs
 ===========
 
+v0.3.2
+======
+
+:date: 2023-03-27 (JST)
+
+Fixes
+-----
+
+* Fix case that ``content-type`` includes charset
+* Display of CLI includes extra parameters
+
 v0.3.1
 ======
 
