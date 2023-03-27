@@ -2,6 +2,11 @@
 Test document
 =============
 
+Discover from registry
+======================
+
+.. oembed:: https://twitter.com/attakei
+
 Discover from content
 =====================
 
