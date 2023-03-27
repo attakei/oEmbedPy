@@ -14,6 +14,9 @@ Set up
        "oembedpy.ext.sphinx",
    ]
 
+
+.. oembed:: https://mastodon.cloud/@attakei/109368512525772407
+
 Usage
 =====
 
