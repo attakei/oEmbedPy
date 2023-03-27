@@ -40,6 +40,7 @@ sphinx = [
 ]
 test = [
   "pytest==7.*",
+  "pytest-cov==4.*",
   "pytest-httpx==0.21.*",
 ]
 
@@ -51,3 +52,6 @@ Home = "https://github.com/attakei-lab/oEmbedPy"
 
 [tool.flit.module]
 name = "oembedpy"
+
+[tool.pytest.ini_options]
+addopts = "--cov=oembedpy"
