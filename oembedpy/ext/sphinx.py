@@ -30,13 +30,17 @@ class OembedDirective(Directive):  # noqa: D101
     }
 
     def run(self):  # noqa: D102
-        url, params = discovery.find_from_content(self.arguments[0])
+        url = self.arguments[0]
+        try:
+            api_url, params = discovery.find_from_registry(url)
+        except ValueError:  # TODO: Split error case?
+            api_url, params = discovery.find_from_content(url)
         if "maxwidth" in self.options:
             params.max_width = self.options["maxwidth"]
         if "maxheight" in self.options:
             params.max_height = self.options["maxheight"]
         node = oembed()
-        node["content"] = consumer.fetch_content(url, params)
+        node["content"] = consumer.fetch_content(api_url, params)
         return [
             node,
         ]
