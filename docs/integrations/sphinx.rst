@@ -69,3 +69,16 @@ With options
 .. oembed:: https://www.youtube.com/watch?v=Oyh8nuaLASA
    :maxwidth: 640
    :maxheight: 640
+
+Gallery
+=======
+
+Bluesky
+-------
+
+.. code-block:: rst
+
+   .. oembed:: https://bsky.app/profile/attakei.dev/post/3kqigze6cks2z
+
+.. oembed:: https://bsky.app/profile/attakei.dev/post/3kqigze6cks2z
+
