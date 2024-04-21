@@ -1,0 +1,6 @@
+current_version = "0.4.0"
+
+[[files]]
+path = "oembedpy/__init__.py"
+search = "__version__ = \"{{current_version}}\""
+replace = "__version__ = \"{{new_version}}\""
