@@ -4,3 +4,43 @@ current_version = "0.4.0"
 path = "oembedpy/__init__.py"
 search = "__version__ = \"{{current_version}}\""
 replace = "__version__ = \"{{new_version}}\""
+
+[[files]]
+path = "CHANGES.rst"
+search = """
+Change logs
+===========
+"""
+replace = """
+Change logs
+===========
+
+v{{ new_version }}
+={% for _ in new_version %}={% endfor %}
+
+:date: {{ now|date }} (JST)
+
+Breaking changes
+----------------
+
+Features
+--------
+
+Fixes
+-----
+
+Others
+------
+"""
+
+[[files]]
+path = ".github/release-body.md"
+regex = true
+search = """
+- Changelog is https://github.com/attakei/oEmbedPy/blob/v{{ current_version }}/CHANGES.rst
+- You can source diff to (.+)
+"""
+replace = """
+- Changelog is https://github.com/attakei/oEmbedPy/blob/v{{ new_version }}/CHANGES.rst
+- You can source diff to https://github.com/attakei/oembedPy/compare/v{{ current_version }}..v{{ new_version }}
+"""
