@@ -4,7 +4,7 @@ import pytest
 from oembedpy import consumer, types
 
 
-class TestFor_RequestParamaters:
+class TestFor_RequestParameters:
     def test__to_dict_default_only(self):
         params = consumer.RequestParameters(url="http://example.com")
         data = params.to_dict()

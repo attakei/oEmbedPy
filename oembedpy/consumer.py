@@ -36,7 +36,7 @@ class RequestParameters:
 def fetch_content(url: str, params: RequestParameters) -> types.Content:
     """Call API and generate content object.
 
-    This accept only response that has content-type  header explicited as json or xml.
+    This accept only response that has content-type  header explicit as json or xml.
     * OK: ``application/json``
     * OK: ``text/xml``
     * NG: ``text/plain`` (even if body is JSON string)

@@ -5,7 +5,7 @@ oEmbedPy
 .. note::
 
    This is yet experimental product.
-   It will be implemeted needy features incrementaly.
+   It will be implemented needy features incrementally.
 
 Overview
 ========
@@ -58,7 +58,7 @@ Simple usage for author's video (omitted some output).
    thumbnail_height: 360
    thumbnail_width:  400
 
-If you want JSON, use ``--foramt`` option.
+If you want JSON, use ``--format`` option.
 
 .. code-block:: console
 
