@@ -2,6 +2,7 @@
 
 This module is complied for style of https://oembed.com/providers.json
 """
+
 from dataclasses import dataclass
 from fnmatch import fnmatch
 from typing import Any, Dict, List, Optional

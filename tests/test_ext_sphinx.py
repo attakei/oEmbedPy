@@ -1,4 +1,5 @@
 """Test cases for ``revealjs-fragments`` directive."""
+
 from typing import AnyStr
 
 import pytest

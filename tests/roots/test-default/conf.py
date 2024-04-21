@@ -1,4 +1,5 @@
 """Configuration is cases for default behavior."""
+
 extensions = [
     "oembedpy.ext.sphinx",
 ]

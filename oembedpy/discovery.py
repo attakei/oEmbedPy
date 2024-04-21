@@ -2,6 +2,7 @@
 
 This provides features to find oEmbed provider of contents.
 """
+
 import logging
 import urllib.parse
 from typing import Optional, Tuple

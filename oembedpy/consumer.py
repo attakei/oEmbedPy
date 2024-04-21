@@ -1,4 +1,5 @@
 """For consumer request."""
+
 import logging
 from dataclasses import dataclass
 from typing import Dict, Optional

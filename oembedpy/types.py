@@ -3,6 +3,7 @@
 All typed classes are based from oEmbed specs.
 Please see https://oembed.com/
 """
+
 from dataclasses import asdict, dataclass
 from inspect import signature
 from typing import Any, Dict, Optional, Type, TypeVar, Union

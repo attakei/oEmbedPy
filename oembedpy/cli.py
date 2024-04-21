@@ -1,4 +1,5 @@
 """Console entrypoint."""
+
 import logging
 import sys
 from typing import Literal, Optional

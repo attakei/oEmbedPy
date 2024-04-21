@@ -1,4 +1,5 @@
 """Sphinx extension module."""
+
 import logging
 
 try:
