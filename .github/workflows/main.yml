@@ -34,7 +34,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          pip install '.[test,sphinx]'
+          pip install '.[test]'
       - name: Run tests
         run: |
           pytest
