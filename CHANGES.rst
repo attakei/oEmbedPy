@@ -2,6 +2,21 @@
 Change logs
 ===========
 
+v0.5.0
+======
+
+:date: 2024-04-21 (JST)
+
+Features
+--------
+
+* Follow redirects when fetch embed content (`#1 <https://github.com/attakei/oEmbedPy/pull/1>`_)
+
+Others
+------
+
+* Use Ruff for formatting and linting
+
 v0.4.0
 ======
 
