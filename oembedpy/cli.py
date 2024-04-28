@@ -23,6 +23,9 @@ OUTPUT_FORMAT = Literal["text", "json"]
     "--version", is_flag=True, default=False, help="Show version information and exit."
 )
 @click.option(
+    "-w", "--workspace", is_flag=True, default=False, help="Use caching workspace."
+)
+@click.option(
     "--format",
     type=click.Choice(["text", "json"]),
     default="text",
@@ -35,6 +38,7 @@ OUTPUT_FORMAT = Literal["text", "json"]
 def cli(
     ctx: click.Context,
     version: bool,
+    workspace: bool,
     url: str,
     format: OUTPUT_FORMAT,
     max_width: Optional[int] = None,
@@ -47,7 +51,8 @@ def cli(
 
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
-    oembed = application.Oembed()
+    oembed = application.Workspace() if workspace else application.Oembed()
+    oembed.init()
     try:
         content = oembed.fetch(url, max_width, max_height)
     except Exception as err:

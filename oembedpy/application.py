@@ -1,9 +1,13 @@
 """Core endpoint."""
 
+import json
 import logging
+import time
 from typing import Optional
 
 import httpx
+
+from platformdirs import PlatformDirs
 
 from oembedpy import consumer, discovery
 from oembedpy.provider import ProviderRegistry
@@ -15,11 +19,14 @@ logger = logging.getLogger(__name__)
 class Oembed:
     """Application of oEmbed."""
 
-    registry: ProviderRegistry
+    _registry: ProviderRegistry
 
     def __init__(self):  # noqa: D107
+        pass
+
+    def init(self):
         resp = httpx.get("https://oembed.com/providers.json")
-        self.registry = ProviderRegistry.from_dict(resp.json())
+        self._registry = ProviderRegistry.from_dict(resp.json())
 
     def fetch(
         self,
@@ -41,3 +48,34 @@ class Oembed:
             params.max_height = max_height
         content = consumer.fetch_content(api_url, params)
         return content
+
+
+class Workspace(Oembed):
+    """oEmbed client with workspace."""
+
+    def __init__(self):
+        self._dirs = PlatformDirs("oembedpy")
+
+    @property
+    def cache_dir(self):
+        return self._dirs.user_data_path
+
+    def init(self):
+        providers_json = self.cache_dir / "providers.json"
+        use_cache = providers_json.exists()
+        if use_cache:
+            now_ts = time.mktime(time.localtime())
+            file_ts = providers_json.stat().st_mtime
+            # TODO: expired time is temporary value, refer settings or default after.
+            use_cache = file_ts + (3600 * 24) > now_ts
+
+        providers_data: dict
+        if use_cache:
+            providers_data = json.loads(providers_json.read_text())
+        else:
+            providers_json.parent.mkdir(parents=True, exist_ok=True)
+            resp = httpx.get("https://oembed.com/providers.json")
+            providers_data = resp.json()
+            providers_json.write_text(resp.text)
+
+        self._registry = ProviderRegistry.from_dict(providers_data)
