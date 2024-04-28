@@ -36,7 +36,7 @@ class Oembed:
     ) -> Content:
         """Find endpoint from registry and content."""
         try:
-            api_url, params = discovery.find_from_registry(url)
+            api_url, params = discovery.find_from_registry(url, self._registry)
         except ValueError:  # TODO: Split error case?
             logger.warning("It is not found from registry. Try from content.")
             api_url, params = discovery.find_from_content(url)
