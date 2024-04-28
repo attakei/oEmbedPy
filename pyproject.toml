@@ -27,6 +27,7 @@ dependencies = [
   "beautifulsoup4",
   "httpx",
   "lxml",
+  "platformdirs",
 ]
 dynamic = ["version", "description"]
 
@@ -35,6 +36,7 @@ cli = ["Click>=8"]
 doc = [
   "furo",
   "Sphinx",
+  "rst-package-refs",
 ]
 sphinx = [
   "sphinx",

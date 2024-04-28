@@ -5,6 +5,7 @@ author = "Kazuya Takei"
 
 extensions = [
     "oembedpy.ext.sphinx",
+    "rst_package_refs.sphinx",
     "sphinx.ext.autodoc",
 ]
 templates_path = ["_templates"]
