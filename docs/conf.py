@@ -7,6 +7,7 @@ extensions = [
     "oembedpy.ext.sphinx",
     "rst_package_refs.sphinx",
     "sphinx.ext.autodoc",
+    "sphinx_toolbox.confval",
 ]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]

@@ -36,6 +36,7 @@ cli = ["Click>=8"]
 doc = [
   "furo",
   "Sphinx",
+  "sphinx-toolbox",
   "rst-package-refs",
 ]
 sphinx = [

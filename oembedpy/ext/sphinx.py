@@ -6,6 +6,7 @@ try:
     from docutils import nodes
     from docutils.parsers.rst import Directive, directives
     from sphinx.application import Sphinx
+    from sphinx.config import Config
 
     logger = logging.getLogger(__name__)
 except ModuleNotFoundError as err:
@@ -16,7 +17,7 @@ except ModuleNotFoundError as err:
     raise err
 
 from oembedpy import __version__
-from oembedpy.application import Oembed
+from oembedpy.application import Oembed, Workspace
 
 _oembed: Oembed
 
@@ -55,15 +56,20 @@ def depart_oembed_node(self, node):  # noqa: D103
     pass
 
 
-def setup(app: Sphinx):  # noqa: D103
+def _init_client(app: Sphinx, config: Config):
     global _oembed
+    _oembed = Workspace() if config.oembed_use_workspace else Oembed()
+    _oembed.init()
+
+
+def setup(app: Sphinx):  # noqa: D103
+    app.add_config_value("oembed_use_workspace", False, "env")
     app.add_directive("oembed", OembedDirective)
     app.add_node(
         oembed,
         html=(visit_oembed_node, depart_oembed_node),
     )
-    _oembed = Oembed()
-    _oembed.init()
+    app.connect("config-inited", _init_client)
     return {
         "version": __version__,
         "parallel_read_safe": True,

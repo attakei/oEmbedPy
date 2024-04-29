@@ -28,6 +28,21 @@ Write ``oembed`` directive into your document.
 
 When it build, embed ``iframe`` content into your HTML.
 
+Configuration
+-------------
+
+.. confval:: oembed_use_workspace
+
+   :Type: ``bool``
+   :Default: ``False``
+
+   Switch to toggle using simple client and workspace.
+
+   If it is set ``True```, extension uses ``Workspace`` object as client.
+
+   .. note:: See :doc:`../workspace` for more information.
+
+
 Spec of directive
 -----------------
 
