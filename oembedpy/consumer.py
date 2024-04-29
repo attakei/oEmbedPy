@@ -21,6 +21,9 @@ class RequestParameters:
     max_width: Optional[int] = None
     max_height: Optional[int] = None
 
+    def __hash__(self):
+        return hash((self.url, self.format, self.max_width, self.max_height))
+
     def to_dict(self) -> Dict[str, str]:
         """Make dict object from properties."""
         data = {"url": self.url}
