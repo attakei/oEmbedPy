@@ -26,6 +26,7 @@ Included features
    :caption: Contents:
 
    commandline
+   workspace
    integrations/sphinx
    api
    changelogs

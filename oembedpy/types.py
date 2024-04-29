@@ -6,7 +6,7 @@ Please see https://oembed.com/
 
 from dataclasses import asdict, dataclass
 from inspect import signature
-from typing import Any, Dict, Optional, Type, TypeVar, Union
+from typing import Any, Dict, NamedTuple, Optional, Type, TypeVar, Union
 
 T = TypeVar("T", bound="_Required")
 
@@ -103,3 +103,8 @@ class Rich(_Optionals, _Rich, _Required):
 
 Content = Union[Photo, Video, Link, Rich]
 """Collection of oEmbed content types."""
+
+
+class CachedContent(NamedTuple):
+    expired: float
+    content: Content
