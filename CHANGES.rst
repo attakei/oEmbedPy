@@ -2,6 +2,21 @@
 Change logs
 ===========
 
+v0.6.0
+======
+
+:date: 2024-04-29 (JST)
+
+Features
+--------
+
+* "workspace" to cache responses (optnional)
+
+Fixes
+-----
+
+* Reduce requests to providers.json
+
 v0.5.0
 ======
 
