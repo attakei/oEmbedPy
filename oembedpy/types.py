@@ -88,6 +88,13 @@ class _Rich:
 
 
 @dataclass
+class _HtmlOnly(_BaseType):
+    """Required fields for fallbacked content."""
+
+    html: str
+
+
+@dataclass
 class Photo(_Optionals, _Photo, _Required):
     """oEmbed content for photo object."""
 
@@ -108,10 +115,8 @@ class Rich(_Optionals, _Rich, _Required):
 
 
 @dataclass
-class HtmlOnly(_BaseType):
+class HtmlOnly(_Optionals, _HtmlOnly):
     """Fallback type for invalid scheme."""
-
-    html: str
 
 
 Content = Union[Photo, Video, Link, Rich, HtmlOnly]
