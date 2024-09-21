@@ -14,61 +14,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          architecture: x64
-          python-version: '3.10'
+      - uses: astral-sh/setup-uv@v2
       - name: Lint by pre-commit
         run: |
-          pipx install pre-commit
-          pre-commit run --all-files
+          uvx pre-commit run --all-files
   test:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.9', '3.10', '3.11', '3.12']
     steps:
       - uses: actions/checkout@v3
+      - uses: astral-sh/setup-uv@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
+        id: 'setup-python'
         with:
           architecture: x64
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          pip install '.[test]'
       - name: Run tests
         run: |
-          pytest
-          pytest -m webtest
+          uv sync --frozen --python='${{ steps.setup-python.outputs.python-path }}'
+          uv run pytest
+          uv run pytest -m webtest
   buildtest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup python
-        uses: actions/setup-python@v4
-        with:
-          architecture: x64
-          python-version: '3.10'
+      - uses: astral-sh/setup-uv@v2
       - name: Build
         run: |
-          pipx install flit
-          flit build
+          uv build
           ls -l dist
   doctest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          architecture: x64
-          python-version: '3.10'
-      - name: Install dependencies
-        run: |
-          pip install '.[doc]'
+      - uses: astral-sh/setup-uv@v2
       - name: Run tests
         run: |
-          make -C docs apidoc linkcheck dirhtml
+          uv sync --frozen
+          uv run make -C docs apidoc linkcheck dirhtml
