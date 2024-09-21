@@ -82,6 +82,12 @@ class _Rich:
 
 
 @dataclass
+class _HtmlOnly:
+    html: str
+    _extra: Dict[str, Any]
+
+
+@dataclass
 class Photo(_Optionals, _Photo, _Required):
     """oEmbed content for photo object."""
 
@@ -101,7 +107,34 @@ class Rich(_Optionals, _Rich, _Required):
     """oEmbed content for rich HTML object."""
 
 
-Content = Union[Photo, Video, Link, Rich]
+@dataclass
+class HtmlOnly(_Optionals, _HtmlOnly):
+    """Optional type that has only HTML.
+
+    This is used only when provider returns invalid responses.
+    """
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "HtmlOnly":
+        cls_fields = {field for field in signature(cls).parameters}
+        cls_kwargs, extra = {}, {}
+        for k, v in data.items():
+            if k in cls_fields:
+                cls_kwargs[k] = v
+            else:
+                extra[k] = v
+        return cls(**cls_kwargs, _extra=extra)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to flat dict."""
+        data = asdict(self)
+        del data["_extra"]
+        for k, v in self._extra.items():
+            data[k] = v
+        return data
+
+
+Content = Union[Photo, Video, Link, Rich, HtmlOnly]
 """Collection of oEmbed content types."""
 
 

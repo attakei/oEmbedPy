@@ -36,7 +36,7 @@ class RequestParameters:
         return data
 
 
-def fetch_content(url: str, params: RequestParameters) -> types.Content:
+def fetch_content(url: str, params: RequestParameters, fallback: bool) -> types.Content:
     """Call API and generate content object.
 
     This accept only response that has content-type  header explicit as json or xml.
@@ -65,4 +65,10 @@ def fetch_content(url: str, params: RequestParameters) -> types.Content:
     Type = data.get("type", "").title()
     if not (Type and hasattr(types, Type)):
         raise ValueError("Invalid type")
-    return getattr(types, data["type"].title()).from_dict(data)
+    try:
+        obj = getattr(types, data["type"].title()).from_dict(data)
+    except Exception as e:
+        if not fallback:
+            raise e
+        obj = types.HtmlOnly.from_dict(data)
+    return obj

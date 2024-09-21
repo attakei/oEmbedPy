@@ -36,6 +36,7 @@ class Oembed:
         url: str,
         max_width: Optional[int] = None,
         max_height: Optional[int] = None,
+        fallback: bool = False,
     ) -> Content:
         """Find endpoint from registry and content."""
         try:
@@ -53,7 +54,7 @@ class Oembed:
         now = time.mktime(time.localtime())
         if params in self._cache and now <= self._cache[params].expired:
             return self._cache[params].content
-        content = consumer.fetch_content(api_url, params)
+        content = consumer.fetch_content(api_url, params, fallback)
         if content.cache_age:
             self._cache[params] = CachedContent(now + int(content.cache_age), content)
         return content

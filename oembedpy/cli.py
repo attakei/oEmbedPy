@@ -33,6 +33,7 @@ OUTPUT_FORMAT = Literal["text", "json"]
 )
 @click.option("--max-width", type=int, help="Max width for oEmbed content.")
 @click.option("--max-height", type=int, help="Max height for oEmbed content.")
+@click.option("--fallback", type=bool, is_flag=True, default=False)
 @click.argument("url")
 @click.pass_context
 def cli(
@@ -43,6 +44,7 @@ def cli(
     format: OUTPUT_FORMAT,
     max_width: Optional[int] = None,
     max_height: Optional[int] = None,
+    fallback: bool = False,
 ):
     """Fetch and display oEmbed parameters from oEmbed provider."""
     if version:
@@ -54,7 +56,7 @@ def cli(
     oembed = application.Workspace() if workspace else application.Oembed()
     oembed.init()
     try:
-        content = oembed.fetch(url, max_width, max_height)
+        content = oembed.fetch(url, max_width, max_height, fallback)
     except Exception as err:
         click.echo(click.style(f"Failed to oEmbed URL for {err}", fg="red"))
         ctx.abort()
