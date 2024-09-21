@@ -22,9 +22,10 @@ class Oembed:
 
     _registry: ProviderRegistry
     _cache: Dict[str, CachedContent]
+    _fallback_type: bool
 
-    def __init__(self):  # noqa: D107
-        pass
+    def __init__(self, fallback_type: bool = False):  # noqa: D107
+        self._fallback_type = fallback_type
 
     def init(self):
         resp = httpx.get("https://oembed.com/providers.json")
@@ -53,7 +54,7 @@ class Oembed:
         now = time.mktime(time.localtime())
         if params in self._cache and now <= self._cache[params].expired:
             return self._cache[params].content
-        content = consumer.fetch_content(api_url, params)
+        content = consumer.fetch_content(api_url, params, self._fallback_type)
         if content.cache_age:
             self._cache[params] = CachedContent(now + int(content.cache_age), content)
         return content
@@ -62,7 +63,8 @@ class Oembed:
 class Workspace(Oembed):
     """oEmbed client with workspace."""
 
-    def __init__(self):
+    def __init__(self, fallback_type: bool = False):
+        super().__init__(fallback_type)
         self._dirs = PlatformDirs("oembedpy")
         self._cache = {}
 

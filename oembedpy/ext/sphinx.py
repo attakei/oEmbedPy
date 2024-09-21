@@ -58,12 +58,17 @@ def depart_oembed_node(self, node):  # noqa: D103
 
 def _init_client(app: Sphinx, config: Config):
     global _oembed
-    _oembed = Workspace() if config.oembed_use_workspace else Oembed()
+    _oembed = (
+        Workspace(config.oembed_fallback_type)
+        if config.oembed_use_workspace
+        else Oembed(config.oembed_fallback_type)
+    )
     _oembed.init()
 
 
 def setup(app: Sphinx):  # noqa: D103
     app.add_config_value("oembed_use_workspace", False, "env")
+    app.add_config_value("oembed_fallback_type", False, "env", bool)
     app.add_directive("oembed", OembedDirective)
     app.add_node(
         oembed,
