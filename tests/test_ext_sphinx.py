@@ -1,7 +1,6 @@
 """Test cases for ``revealjs-fragments`` directive."""
 
 from pathlib import Path
-from typing import AnyStr
 
 import pytest
 from bs4 import BeautifulSoup
@@ -17,7 +16,7 @@ def rootdir():
 def soup_html(app: SphinxTestApp, path: str) -> BeautifulSoup:
     """Build application and parse content."""
     app.build()
-    html: AnyStr = (app.outdir / path).read_text()
+    html = (app.outdir / path).read_text()
     return BeautifulSoup(html, "lxml-html")
 
 
