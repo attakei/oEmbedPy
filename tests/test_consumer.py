@@ -1,4 +1,6 @@
 # flake8: noqa
+from copy import deepcopy
+
 import pytest
 
 from oembedpy import consumer, types
@@ -94,6 +96,19 @@ class TestFor_fetch_content:
                     format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
                 ),
             )
+
+    def test_invalid_json_with_fallback(self, httpx_mock):
+        data = deepcopy(self.content_json)
+        del data["version"]
+        httpx_mock.add_response(json=data)
+        content = consumer.fetch_content(
+            "https://www.youtube.com/oembed",
+            consumer.RequestParameters(
+                format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
+            ),
+            True,
+        )
+        assert isinstance(content, types.HtmlOnly)
 
     def test_invalid_xml(self, httpx_mock):
         httpx_mock.add_response(

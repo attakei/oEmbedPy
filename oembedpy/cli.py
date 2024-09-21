@@ -33,6 +33,13 @@ OUTPUT_FORMAT = Literal["text", "json"]
 )
 @click.option("--max-width", type=int, help="Max width for oEmbed content.")
 @click.option("--max-height", type=int, help="Max height for oEmbed content.")
+@click.option(
+    "--fallback",
+    type=bool,
+    is_flag=True,
+    default=False,
+    help="Fallback simple type if response is invalid",
+)
 @click.argument("url")
 @click.pass_context
 def cli(
@@ -40,6 +47,7 @@ def cli(
     version: bool,
     workspace: bool,
     url: str,
+    fallback: bool,
     format: OUTPUT_FORMAT,
     max_width: Optional[int] = None,
     max_height: Optional[int] = None,
@@ -51,7 +59,9 @@ def cli(
 
     # Fetch content to find meta tags.
     logger.debug(f"Target Content URL is {url}")
-    oembed = application.Workspace() if workspace else application.Oembed()
+    oembed = (
+        application.Workspace(fallback) if workspace else application.Oembed(fallback)
+    )
     oembed.init()
     try:
         content = oembed.fetch(url, max_width, max_height)

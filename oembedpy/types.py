@@ -8,15 +8,13 @@ from dataclasses import asdict, dataclass
 from inspect import signature
 from typing import Any, Dict, NamedTuple, Optional, Type, TypeVar, Union
 
-T = TypeVar("T", bound="_Required")
+T = TypeVar("T", bound="_BaseType")
 
 
 @dataclass
-class _Required:
-    """Fields of required parameters for any types."""
+class _BaseType:
+    """Base type of contents."""
 
-    type: str
-    version: str
     _extra: Dict[str, Any]
 
     @classmethod
@@ -37,6 +35,14 @@ class _Required:
         for k, v in self._extra.items():
             data[k] = v
         return data
+
+
+@dataclass
+class _Required(_BaseType):
+    """Fields of required parameters for any types."""
+
+    type: str
+    version: str
 
 
 @dataclass
@@ -82,6 +88,13 @@ class _Rich:
 
 
 @dataclass
+class _HtmlOnly(_BaseType):
+    """Required fields for fallbacked content."""
+
+    html: str
+
+
+@dataclass
 class Photo(_Optionals, _Photo, _Required):
     """oEmbed content for photo object."""
 
@@ -101,7 +114,12 @@ class Rich(_Optionals, _Rich, _Required):
     """oEmbed content for rich HTML object."""
 
 
-Content = Union[Photo, Video, Link, Rich]
+@dataclass
+class HtmlOnly(_Optionals, _HtmlOnly):
+    """Fallback type for invalid scheme."""
+
+
+Content = Union[Photo, Video, Link, Rich, HtmlOnly]
 """Collection of oEmbed content types."""
 
 
