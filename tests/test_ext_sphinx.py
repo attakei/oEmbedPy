@@ -30,3 +30,13 @@ def test_build(app: SphinxTestApp, status, warning):  # noqa
     )
     assert iframe is not None
     assert iframe["width"] == "1200"
+
+
+@pytest.mark.sphinx("html", testroot="with-fallback")
+def test_build_with_fallback(app: SphinxTestApp):  # noqa
+    soup = soup_html(app, "index.html")
+    link = soup.find(
+        "a",
+        href="https://www.reddit.com/r/Python/comments/vdopqj/sphinxrevealjs_html_presentation_builder_for/",
+    )
+    assert link is not None
