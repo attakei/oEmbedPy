@@ -17,6 +17,7 @@ jobs:
       - uses: astral-sh/setup-uv@v2
       - name: Lint by pre-commit
         run: |
+          uv sync --frozen --all-extras
           uvx pre-commit run --all-files
   test:
     runs-on: ubuntu-latest
