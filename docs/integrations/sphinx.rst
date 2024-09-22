@@ -38,7 +38,7 @@ Configuration
 
    Switch to toggle using simple client and workspace.
 
-   If it is set ``True```, extension uses ``Workspace`` object as client.
+   If it is set ``True``, extension uses ``Workspace`` object as client.
 
    .. note:: See :doc:`../workspace` for more information.
 
