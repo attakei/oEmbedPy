@@ -42,6 +42,18 @@ Configuration
 
    .. note:: See :doc:`../workspace` for more information.
 
+.. confval:: oembed_fallback_type
+
+   :Type: ``bool``
+   :Default: ``False``
+
+   Change process to fallback simple-type when oEmbed provider responses invalid format.
+
+   .. note:: If you want to try, set this URL.
+
+      .. code:: rst
+
+         .. oembed:: https://www.reddit.com/r/Python/comments/vdopqj/sphinxrevealjs_html_presentation_builder_for/
 
 Spec of directive
 -----------------
