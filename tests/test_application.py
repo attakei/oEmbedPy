@@ -72,7 +72,7 @@ class TestForWorkspace:
         other_workspace.init()
         assert spy.call_count == 2
 
-    def test_initialized_response_cache(
+    def test_initialized_providers_cache(
         self, mocked_workspace: application.Workspace, tmp_path
     ):
         mocked_workspace.init()

@@ -49,6 +49,7 @@ dev-dependencies = [
   "pytest-cov>=4",
   "pytest-httpx>=0.21",
   "pytest-mock>=3.14",
+  "mypy>=1.11.2",
 ]
 
 [tool.flit.module]
@@ -60,3 +61,10 @@ markers = [
   "webtest: Marks to use real HTTP connection",
 
 ]
+
+[tool.mypy]
+exclude = 'conf\.py$'
+
+[[tool.mypy.overrides]]
+module = ['bs4', 'docutils', 'docutils.*']
+ignore_missing_imports = true

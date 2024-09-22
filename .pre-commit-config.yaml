@@ -13,3 +13,11 @@ repos:
       - id: doc8
         args:
           - --max-line-length=119
+  - repo: local
+    hooks:
+      - id: 'mypy-local'
+        name: 'mypy'
+        language: 'python'
+        types: ['file', 'python']
+        entry: 'uv run mypy'
+        exclude: 'conf\.py$'
