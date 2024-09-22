@@ -2,6 +2,30 @@
 Change logs
 ===========
 
+v0.7.0
+======
+
+:date: 2024-09-22 (JST)
+
+Features
+--------
+
+* Add feature for fallback content when providers response invalid format.
+
+  * For CLI, add ``--fallback`` option.
+  * For Sphinx extension, ``oembed_fallback_type`` option.
+
+Fixes
+-----
+
+* Clean up some type hinting.
+
+Others
+------
+
+* Check sources by mypy.
+* Manage dependencies and project workspace by uv.
+
 v0.6.0
 ======
 
