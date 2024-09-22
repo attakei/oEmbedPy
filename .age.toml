@@ -6,6 +6,11 @@ search = "__version__ = \"{{current_version}}\""
 replace = "__version__ = \"{{new_version}}\""
 
 [[files]]
+path = "pyproject.toml"
+search = "Documentation = \"https://oembedpy.readthedocs.io/en/v{{current_version}}/\""
+replace = "Documentation = \"https://oembedpy.readthedocs.io/en/v{{new_version}}/\""
+
+[[files]]
 path = "CHANGES.rst"
 search = """
 Change logs
