@@ -20,3 +20,4 @@ repos:
         language: 'python'
         types: ['file', 'python']
         entry: 'uv run mypy'
+        exclude: 'conf\.py$'
