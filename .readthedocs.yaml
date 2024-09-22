@@ -7,6 +7,7 @@ build:
   commands:
     - pip install uv
     - uv sync --frozen
+    - uv run sphinx-apidoc -f -e -T -o=docs/api/ ./oembedpy
     - uv run sphinx-build -b dirhtml docs $READTHEDOCS_OUTPUT/html
 
 # Optionally build your docs in additional formats such as PDF and ePub
