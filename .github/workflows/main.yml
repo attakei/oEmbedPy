@@ -8,6 +8,8 @@ on:
       - '**'
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 5'  # 18:00 on Friday JST
 
 jobs:
   lint:
