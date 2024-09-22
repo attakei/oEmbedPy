@@ -60,3 +60,10 @@ markers = [
   "webtest: Marks to use real HTTP connection",
 
 ]
+
+[tool.mypy]
+exclude = 'conf\.py$'
+
+[[tool.mypy.overrides]]
+module = ['bs4', 'docutils', 'docutils.*']
+ignore_missing_imports = true

@@ -21,7 +21,7 @@ class Oembed:
     """Application of oEmbed."""
 
     _registry: ProviderRegistry
-    _cache: Dict[str, CachedContent]
+    _cache: Dict[consumer.RequestParameters, CachedContent]
     _fallback_type: bool
 
     def __init__(self, fallback_type: bool = False):  # noqa: D107
