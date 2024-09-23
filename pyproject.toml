@@ -38,7 +38,7 @@ cli = ["Click>=8"]
 
 [project.urls]
 Home = "https://github.com/attakei/oEmbedPy"
-Documentation = "https://oembedpy.readthedocs.io/en/v0.7.0/"
+Documentation = "https://oembedpy.readthedocs.io/en/v0.7.1/"
 
 [tool.uv]
 dev-dependencies = [

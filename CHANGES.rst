@@ -2,6 +2,17 @@
 Change logs
 ===========
 
+v0.7.1
+======
+
+:date: 2024-09-23 (JST)
+
+Others
+------
+
+* NOTE: It does not have new features and bug fixes.
+* Add link for documentation on PyPI.
+
 v0.7.0
 ======
 
