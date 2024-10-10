@@ -1,2 +1,2 @@
-- Changelog is https://github.com/attakei/oEmbedPy/blob/v0.7.1/CHANGES.rst
-- You can source diff to https://github.com/attakei/oembedPy/compare/v0.7.0..v0.7.1
+- Changelog is https://github.com/attakei/oEmbedPy/blob/v0.7.2/CHANGES.rst
+- You can source diff to https://github.com/attakei/oembedPy/compare/v0.7.1..v0.7.2

@@ -2,6 +2,17 @@
 Change logs
 ===========
 
+v0.7.2
+======
+
+:date: 2024-10-11 (JST)
+
+Others
+------
+
+* NOTE: It does not have new features and bug fixes.
+* Add classifier for Python 3.13 (tests pass on GitHub Actions).
+
 v0.7.1
 ======
 
