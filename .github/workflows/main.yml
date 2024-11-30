@@ -15,12 +15,14 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: astral-sh/setup-uv@v2
-      - name: Lint by pre-commit
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: 'Configure dependencies'
         run: |
           uv sync --frozen --all-extras
-          uvx pre-commit run --all-files
+      - name: 'Run linters'
+        run: |
+          lefthook run pre-commit --all-files
   test:
     runs-on: ubuntu-latest
     strategy:
