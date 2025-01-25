@@ -1,25 +1,69 @@
 """Sphinx extension module."""
 
 import logging
+from datetime import datetime
+from typing import Union, Tuple
 
 try:
     from docutils import nodes
     from docutils.parsers.rst import Directive, directives
     from sphinx.application import Sphinx
-    from sphinx.config import Config
-
-    logger = logging.getLogger(__name__)
+    from sphinx.domains import Domain
+    from sphinx.environment import BuildEnvironment
 except ModuleNotFoundError as err:
-    logger = logging.getLogger(__name__)
-
     msg = "To use it, install with Sphinx."
     logging.error(msg)
     raise err
 
 from oembedpy import __version__
 from oembedpy.application import Oembed, Workspace
+from oembedpy.types import Content
+from sphinx.util.logging import getLogger
 
-_oembed: Oembed
+logger = getLogger(__name__)
+
+
+class OembedDomain(Domain):
+    name = __name__
+    label = "oembedpy"
+
+    def __init__(self, env: BuildEnvironment):
+        super().__init__(env)
+        use_workspace = self.env.app.config.oembed_use_workspace
+        fallback_type = self.env.app.config.oembed_fallback_type
+        self._client = (
+            Workspace(fallback_type) if use_workspace else Oembed(fallback_type)
+        )
+        self._client.init()
+
+    @property
+    def caches(self) -> dict[Tuple[str, Union[int, None], Union[int, None]], Content]:
+        return self.data.setdefault("caches", {})
+
+    def process_doc(
+        self, env: BuildEnvironment, docname: str, document: nodes.document
+    ):
+        for node in document.findall(oembed):
+            params = node["params"]
+            cache_key = (params["url"], params["max_width"], params["max_height"])
+            logger.debug(f"Target content for {cache_key}")
+            if self.has_cache(cache_key):
+                logger.debug("Cache is found. Use this.")
+                content = self.caches[cache_key]
+            else:
+                logger.debug("Cache is not exists. Fetching content from service.")
+                content = self._client.fetch(**node["params"])
+                self.caches[cache_key] = content
+            node["content"] = content
+
+    def has_cache(self, key: Tuple[str, Union[int, None], Union[int, None]]) -> bool:
+        now = int(datetime.now().timestamp())
+        if key not in self.caches:
+            return False
+        content: Content = self.caches[key]
+        if "cache_age" not in content._extra:
+            return True
+        return now < content._extra["cache_age"]
 
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
@@ -41,7 +85,7 @@ class OembedDirective(Directive):  # noqa: D101
             "max_height": self.options.get("maxheight", None),
         }
         node = oembed()
-        node["content"] = _oembed.fetch(**oembed_kwags)
+        node["params"] = oembed_kwags
         return [
             node,
         ]
@@ -56,16 +100,6 @@ def depart_oembed_node(self, node):  # noqa: D103
     pass
 
 
-def _init_client(app: Sphinx, config: Config):
-    global _oembed
-    _oembed = (
-        Workspace(config.oembed_fallback_type)
-        if config.oembed_use_workspace
-        else Oembed(config.oembed_fallback_type)
-    )
-    _oembed.init()
-
-
 def setup(app: Sphinx):  # noqa: D103
     app.add_config_value("oembed_use_workspace", False, "env")
     app.add_config_value("oembed_fallback_type", False, "env", bool)
@@ -74,7 +108,7 @@ def setup(app: Sphinx):  # noqa: D103
         oembed,
         html=(visit_oembed_node, depart_oembed_node),
     )
-    app.connect("config-inited", _init_client)
+    app.add_domain(OembedDomain)
     return {
         "version": __version__,
         "parallel_read_safe": True,
