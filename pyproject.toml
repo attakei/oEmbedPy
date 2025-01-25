@@ -38,6 +38,9 @@ dependencies = [
 
 [project.optional-dependencies]
 cli = ["Click>=8"]
+sphinx = [
+    "sphinx>=7",
+]
 
 [project.scripts]
 "oEmbed.py" = "oembedpy.cli:main"

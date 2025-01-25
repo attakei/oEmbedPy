@@ -864,6 +864,9 @@ dependencies = [
 cli = [
     { name = "click" },
 ]
+sphinx = [
+    { name = "sphinx" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -886,6 +889,7 @@ requires-dist = [
     { name = "httpx" },
     { name = "lxml" },
     { name = "platformdirs" },
+    { name = "sphinx", marker = "extra == 'sphinx'", specifier = ">=7" },
 ]
 
 [package.metadata.requires-dev]
