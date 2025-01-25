@@ -11,8 +11,11 @@ requires-python = ">=3.9"
 license = {file = "LICENSE"}
 authors = [{name = "Kazuya Takei", email = "myself@attakei.net"}]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
+  "Environment :: Console",
+  "Framework :: Sphinx",
+  "Framework :: Sphinx :: Extension",
   "License :: OSI Approved :: Apache Software License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
@@ -21,6 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Topic :: Documentation :: Sphinx",
   "Topic :: Internet",
   "Topic :: Internet :: WWW/HTTP",
   "Topic :: Utilities",
