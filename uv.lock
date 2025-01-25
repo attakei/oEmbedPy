@@ -851,6 +851,7 @@ wheels = [
 
 [[package]]
 name = "oembedpy"
+version = "0.7.2"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },

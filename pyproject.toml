@@ -4,6 +4,8 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "oEmbedPy"
+version = "0.7.2"
+description = "oEmbed client for Python."
 readme = "README.rst"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
@@ -29,7 +31,6 @@ dependencies = [
   "lxml",
   "platformdirs",
 ]
-dynamic = ["version", "description"]
 
 [project.optional-dependencies]
 cli = ["Click>=8"]
