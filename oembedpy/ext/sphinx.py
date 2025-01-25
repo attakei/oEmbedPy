@@ -1,6 +1,8 @@
 """Sphinx extension module."""
 
 import logging
+from datetime import datetime
+from typing import Union, Tuple
 
 try:
     from docutils import nodes
@@ -8,17 +10,17 @@ try:
     from sphinx.application import Sphinx
     from sphinx.domains import Domain
     from sphinx.environment import BuildEnvironment
-
-    logger = logging.getLogger(__name__)
 except ModuleNotFoundError as err:
-    logger = logging.getLogger(__name__)
-
     msg = "To use it, install with Sphinx."
     logging.error(msg)
     raise err
 
 from oembedpy import __version__
 from oembedpy.application import Oembed, Workspace
+from oembedpy.types import Content
+from sphinx.util.logging import getLogger
+
+logger = getLogger(__name__)
 
 
 class OembedDomain(Domain):
@@ -34,12 +36,34 @@ class OembedDomain(Domain):
         )
         self._client.init()
 
+    @property
+    def caches(self) -> dict[Tuple[str, Union[int, None], Union[int, None]], Content]:
+        return self.data.setdefault("caches", {})
+
     def process_doc(
         self, env: BuildEnvironment, docname: str, document: nodes.document
     ):
         for node in document.findall(oembed):
             params = node["params"]
-            node["content"] = self._client.fetch(**params)
+            cache_key = (params["url"], params["max_width"], params["max_height"])
+            logger.debug(f"Target content for {cache_key}")
+            if self.has_cache(cache_key):
+                logger.debug("Cache is found. Use this.")
+                content = self.caches[cache_key]
+            else:
+                logger.debug("Cache is not exists. Fetching content from service.")
+                content = self._client.fetch(**node["params"])
+                self.caches[cache_key] = content
+            node["content"] = content
+
+    def has_cache(self, key: Tuple[str, Union[int, None], Union[int, None]]) -> bool:
+        now = int(datetime.now().timestamp())
+        if key not in self.caches:
+            return False
+        content: Content = self.caches[key]
+        if "cache_age" not in content._extra:
+            return True
+        return now < content._extra["cache_age"]
 
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
