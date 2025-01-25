@@ -2,11 +2,6 @@
 oEmbedPy
 ========
 
-.. note::
-
-   This is yet experimental product.
-   It will be implemented needy features incrementally.
-
 Overview
 ========
 
