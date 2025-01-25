@@ -6,7 +6,8 @@ try:
     from docutils import nodes
     from docutils.parsers.rst import Directive, directives
     from sphinx.application import Sphinx
-    from sphinx.config import Config
+    from sphinx.domains import Domain
+    from sphinx.environment import BuildEnvironment
 
     logger = logging.getLogger(__name__)
 except ModuleNotFoundError as err:
@@ -19,7 +20,19 @@ except ModuleNotFoundError as err:
 from oembedpy import __version__
 from oembedpy.application import Oembed, Workspace
 
-_oembed: Oembed
+
+class OembedDomain(Domain):
+    name = __name__
+    label = "oembedpy"
+
+    def __init__(self, env: BuildEnvironment):
+        super().__init__(env)
+        use_workspace = self.env.app.config.oembed_use_workspace
+        fallback_type = self.env.app.config.oembed_fallback_type
+        self._client = (
+            Workspace(fallback_type) if use_workspace else Oembed(fallback_type)
+        )
+        self._client.init()
 
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
@@ -41,7 +54,7 @@ class OembedDirective(Directive):  # noqa: D101
             "max_height": self.options.get("maxheight", None),
         }
         node = oembed()
-        node["content"] = _oembed.fetch(**oembed_kwags)
+        node["params"] = oembed_kwags
         return [
             node,
         ]
@@ -56,14 +69,11 @@ def depart_oembed_node(self, node):  # noqa: D103
     pass
 
 
-def _init_client(app: Sphinx, config: Config):
-    global _oembed
-    _oembed = (
-        Workspace(config.oembed_fallback_type)
-        if config.oembed_use_workspace
-        else Oembed(config.oembed_fallback_type)
-    )
-    _oembed.init()
+def fetch_contents(app: Sphinx, doctree: nodes.document):
+    domain: OembedDomain = app.env.get_domain(__name__)  # type:ignore[assignment]
+    for node in doctree.findall(oembed):
+        params = node["params"]
+        node["content"] = domain._client.fetch(**params)
 
 
 def setup(app: Sphinx):  # noqa: D103
@@ -74,7 +84,8 @@ def setup(app: Sphinx):  # noqa: D103
         oembed,
         html=(visit_oembed_node, depart_oembed_node),
     )
-    app.connect("config-inited", _init_client)
+    app.add_domain(OembedDomain)
+    app.connect("doctree-read", fetch_contents)
     return {
         "version": __version__,
         "parallel_read_safe": True,
