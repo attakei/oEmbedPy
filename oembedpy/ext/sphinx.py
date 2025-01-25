@@ -34,6 +34,13 @@ class OembedDomain(Domain):
         )
         self._client.init()
 
+    def process_doc(
+        self, env: BuildEnvironment, docname: str, document: nodes.document
+    ):
+        for node in document.findall(oembed):
+            params = node["params"]
+            node["content"] = self._client.fetch(**params)
+
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
     pass
@@ -69,13 +76,6 @@ def depart_oembed_node(self, node):  # noqa: D103
     pass
 
 
-def fetch_contents(app: Sphinx, doctree: nodes.document):
-    domain: OembedDomain = app.env.get_domain(__name__)  # type:ignore[assignment]
-    for node in doctree.findall(oembed):
-        params = node["params"]
-        node["content"] = domain._client.fetch(**params)
-
-
 def setup(app: Sphinx):  # noqa: D103
     app.add_config_value("oembed_use_workspace", False, "env")
     app.add_config_value("oembed_fallback_type", False, "env", bool)
@@ -85,7 +85,6 @@ def setup(app: Sphinx):  # noqa: D103
         html=(visit_oembed_node, depart_oembed_node),
     )
     app.add_domain(OembedDomain)
-    app.connect("doctree-read", fetch_contents)
     return {
         "version": __version__,
         "parallel_read_safe": True,
