@@ -1,23 +1,25 @@
 """Sphinx extension module."""
 
-import logging
 from datetime import datetime
 from typing import Union, Tuple
 
 try:
-    from docutils import nodes
-    from docutils.parsers.rst import Directive, directives
-    from sphinx.application import Sphinx
-    from sphinx.domains import Domain
-    from sphinx.environment import BuildEnvironment
+    import sphinx  # noqa
 except ModuleNotFoundError as err:
+    import logging
+
     msg = "To use it, install with Sphinx."
     logging.error(msg)
     raise err
 
+from docutils import nodes
+from docutils.parsers.rst import Directive, directives
 from oembedpy import __version__
 from oembedpy.application import Oembed, Workspace
 from oembedpy.types import Content
+from sphinx.application import Sphinx
+from sphinx.domains import Domain
+from sphinx.environment import BuildEnvironment
 from sphinx.util.logging import getLogger
 
 logger = getLogger(__name__)
