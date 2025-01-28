@@ -20,6 +20,21 @@ def soup_html(app: SphinxTestApp, path: str) -> BeautifulSoup:
     return BeautifulSoup(html, "lxml-html")
 
 
+@pytest.mark.sphinx(
+    "html",
+    testroot="default",
+    confoverrides={"extensions": ["oembedpy.ext.sphinx"]},
+)
+def test_build_cover_depracated(app: SphinxTestApp, status, warning):  # noqa
+    soup = soup_html(app, "index.html")
+    # YourTube iframe render with maxwidth,maxheight
+    iframe = soup.find(
+        "iframe", src="https://www.youtube.com/embed/Oyh8nuaLASA?feature=oembed"
+    )
+    assert iframe is not None
+    assert iframe["width"] == "1200"
+
+
 @pytest.mark.sphinx("html", testroot="default")
 def test_build(app: SphinxTestApp, status, warning):  # noqa
     soup = soup_html(app, "index.html")
@@ -44,10 +59,10 @@ def test_build_with_fallback(app: SphinxTestApp):  # noqa
 @pytest.mark.sphinx("html", testroot="default")
 def test_caches(app: SphinxTestApp):  # noqa
     app.build()
-    assert len(app.env.get_domain("oembedpy.ext.sphinx").caches) == 3  # type: ignore[attr-defined]
+    assert len(app.env.get_domain("oembedpy.adapter.sphinx").caches) == 3  # type: ignore[attr-defined]
 
 
 @pytest.mark.sphinx("html", testroot="for-sphinx-cached")
 def test_use_caches(app: SphinxTestApp):  # noqa
     app.build()
-    assert len(app.env.get_domain("oembedpy.ext.sphinx").caches) == 1  # type: ignore[attr-defined]
+    assert len(app.env.get_domain("oembedpy.adapter.sphinx").caches) == 1  # type: ignore[attr-defined]

@@ -1,7 +1,7 @@
 """Configuration is cases for default behavior."""
 
 extensions = [
-    "oembedpy.ext.sphinx",
+    "oembedpy.adapter.sphinx",
 ]
 
 # To skip toctree
