@@ -11,9 +11,13 @@ Set up
 
    extensions = [
        # After extensions
-       "oembedpy.ext.sphinx",
+       "oembedpy.adapter.sphinx",
    ]
 
+.. important::
+
+   This is named ``oembedpy.ext.sphinx`` until v0.7.2.
+   It will keep until v1.0 for compatibility.
 
 .. oembed:: https://mastodon.cloud/@attakei/109368512525772407
 
