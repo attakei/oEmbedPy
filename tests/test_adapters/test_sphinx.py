@@ -10,7 +10,7 @@ from sphinx.testing.util import SphinxTestApp
 @pytest.fixture(scope="module")
 def rootdir():
     """Set root directory to use testing sphinx project."""
-    return Path(__file__).parent.resolve() / "roots"
+    return Path(__file__).parents[1].resolve() / "roots"
 
 
 def soup_html(app: SphinxTestApp, path: str) -> BeautifulSoup:
@@ -20,6 +20,7 @@ def soup_html(app: SphinxTestApp, path: str) -> BeautifulSoup:
     return BeautifulSoup(html, "lxml-html")
 
 
+@pytest.mark.webtest
 @pytest.mark.sphinx("html", testroot="default")
 def test_build(app: SphinxTestApp, status, warning):  # noqa
     soup = soup_html(app, "index.html")
@@ -31,6 +32,7 @@ def test_build(app: SphinxTestApp, status, warning):  # noqa
     assert iframe["width"] == "1200"
 
 
+@pytest.mark.webtest
 @pytest.mark.sphinx("html", testroot="with-fallback")
 def test_build_with_fallback(app: SphinxTestApp):  # noqa
     soup = soup_html(app, "index.html")
@@ -41,12 +43,14 @@ def test_build_with_fallback(app: SphinxTestApp):  # noqa
     assert link is not None
 
 
+@pytest.mark.webtest
 @pytest.mark.sphinx("html", testroot="default")
 def test_caches(app: SphinxTestApp):  # noqa
     app.build()
     assert len(app.env.get_domain("oembedpy.adapters.sphinx").caches) == 3  # type: ignore[attr-defined]
 
 
+@pytest.mark.webtest
 @pytest.mark.sphinx("html", testroot="for-sphinx-cached")
 def test_use_caches(app: SphinxTestApp):  # noqa
     app.build()

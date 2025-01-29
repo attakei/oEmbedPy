@@ -20,6 +20,7 @@ def soup_html(app: SphinxTestApp, path: str) -> BeautifulSoup:
     return BeautifulSoup(html, "lxml-html")
 
 
+@pytest.mark.webtest
 @pytest.mark.sphinx(
     "html",
     testroot="default",
