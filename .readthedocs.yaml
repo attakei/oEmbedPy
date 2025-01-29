@@ -7,7 +7,7 @@ build:
   commands:
     - pip install uv
     - uv sync --frozen --all-extras
-    - uv run mkdocs build
+    - uv run mkdocs build -f demo/mkdocs/config.yaml
     - uv run sphinx-apidoc -f -e -T -o=docs/api/ ./oembedpy
     - uv run sphinx-build -b dirhtml docs $READTHEDOCS_OUTPUT/html
 

@@ -1,0 +1,8 @@
+site_name: 'Demo of oembedpy.adapters.mkdocs'
+# site_url: ''
+
+docs_dir: '.'
+site_dir: '../../docs/_extra/demo-mkdocs'
+
+plugins:
+  - 'oembedpy'

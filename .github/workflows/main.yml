@@ -77,4 +77,4 @@ jobs:
       - name: Run tests
         run: |
           uv sync --frozen --all-extras
-          uv run mkdocs build
+          uv run mkdocs build -f demo/mkdocs/config.yaml
