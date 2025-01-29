@@ -20,6 +20,7 @@ Included features
 
 * CLI
 * Sphinx integration
+* MkDocs integration
 
 .. toctree::
    :maxdepth: 1
@@ -28,5 +29,6 @@ Included features
    commandline
    workspace
    integrations/sphinx
+   integrations/mkdocs
    api
    changelogs
