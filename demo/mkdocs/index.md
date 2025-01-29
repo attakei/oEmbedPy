@@ -62,3 +62,27 @@ url = 'https://www.youtube.com/watch?v=Oyh8nuaLASA'
 max_width =  640
 max_height = 640
 ```
+
+### Fallback
+
+This demo works only when set plugin options `fallback: true`.
+
+```yaml
+plugins:
+  - oembedpy:
+      fallback_type: true
+```
+
+Source:
+
+````markdown
+```oembed
+url = 'https://www.reddit.com/r/Python/comments/vdopqj/sphinxrevealjs_html_presentation_builder_for/'
+```
+````
+
+Output:
+
+```oembed
+url = 'https://www.reddit.com/r/Python/comments/vdopqj/sphinxrevealjs_html_presentation_builder_for/'
+```

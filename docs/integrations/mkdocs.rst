@@ -41,4 +41,19 @@ Spec of code-block
 Configuration
 -------------
 
-(Not yet)
+This plugin defines one option.
+
+.. confval:: fallback_type
+
+   :Type: ``bool``
+   :Default: ``false``
+
+   Change process to fallback simple-type when oEmbed provider responses invalid format.
+
+   .. note:: If you want to try, set this URL.
+
+      .. code:: markdown
+
+         ```oembed
+         url = 'https://www.reddit.com/r/Python/comments/vdopqj/sphinxrevealjs_html_presentation_builder_for/'
+         ```

@@ -8,6 +8,7 @@ import logging
 from typing import Optional
 
 import lxml.html
+from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin
 
 from ..application import Oembed
@@ -23,11 +24,18 @@ logger = logging.getLogger(__name__)
 class OembedPlugin(BasePlugin):
     """Oembed injection plugin for MkDocs."""
 
+    config_scheme = (
+        (
+            "fallback_type",
+            config_options.Type(bool, default=False),
+        ),
+    )
+
     _client: Oembed
 
     def on_startup(self, *, command: str, dirty: bool) -> None:
         # TODO: It should cache responses
-        self._client = Oembed(True)
+        self._client = Oembed(self.config["fallback_type"])
         self._client.init()
 
     def on_page_content(self, html: str, **kwargs) -> Optional[str]:

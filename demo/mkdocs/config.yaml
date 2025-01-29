@@ -5,4 +5,6 @@ docs_dir: '.'
 site_dir: '../../docs/_extra/demo-mkdocs'
 
 plugins:
-  - 'oembedpy'
+  # - oembedpy
+  - oembedpy:
+      fallback_type: true
