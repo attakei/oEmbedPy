@@ -4,7 +4,7 @@ Work as MkDocs plugin
 
 You can embed HTML content into MkDocs pages from oEmbed API.
 
-See `demo page <../../demo/mkdocs/>`_.
+See `demo page <../../demo-mkdocs/>`_.
 
 Set up
 ======

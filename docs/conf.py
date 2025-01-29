@@ -18,5 +18,5 @@ html_extra_path = ["_extra"]
 
 # -- Options for Linkcheck output
 linkcheck_ignore = [
-    "../../demo/mkdocs/",
+    "../../demo-mkdocs/",
 ]
