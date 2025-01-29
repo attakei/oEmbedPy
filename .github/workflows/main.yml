@@ -43,8 +43,7 @@ jobs:
         if: ${{ matrix.workspace == 'latest'}}
       - name: Run tests
         run: |
-          uv run pytest
-          uv run pytest -m webtest
+          uv run pytest -m "webtest or not webtest"
   buildtest:
     runs-on: ubuntu-latest
     steps:
