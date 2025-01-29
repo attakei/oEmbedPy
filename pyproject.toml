@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "oEmbedPy"
-version = "0.7.2"
+version = "0.8.0"
 description = "oEmbed client for Python."
 readme = "README.rst"
 requires-python = ">=3.9"
@@ -50,7 +50,7 @@ sphinx = [
 
 [project.urls]
 Home = "https://github.com/attakei/oEmbedPy"
-Documentation = "https://oembedpy.readthedocs.io/en/v0.7.2/"
+Documentation = "https://oembedpy.readthedocs.io/en/v0.8.0/"
 
 [project.entry-points."mkdocs.plugins"]
 oembedpy = "oembedpy.adapters.mkdocs:OembedPlugin"

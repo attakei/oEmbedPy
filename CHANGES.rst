@@ -2,6 +2,34 @@
 Change logs
 ===========
 
+v0.8.0
+======
+
+:date: 2025-01-30 (JST)
+
+Breaking changes
+----------------
+
+* Rename Sphinx integration from ``oembedpy.ext.sphinx`` to ``oembedpy.adapters.sphinx``.
+  But it keeps package that can import.
+
+Features
+--------
+
+* MkDocs integration: Create new integration as ``oembedpy.adapters.mkdocs``.
+* Sphinx integration: Cache response of oEmbed API into build-environment.
+
+Fixes
+-----
+
+* Define optional dependencies, they are ``sphinx`` and ``mkdocs``.
+
+Others
+------
+
+* Update classifiers.
+* Dprecated ``oembedpy.ext.sphinx`` (see Breaking changes).
+
 v0.7.2
 ======
 
