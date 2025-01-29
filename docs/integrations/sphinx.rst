@@ -11,7 +11,7 @@ Set up
 
    extensions = [
        # After extensions
-       "oembedpy.adapter.sphinx",
+       "oembedpy.adapters.sphinx",
    ]
 
 .. important::
