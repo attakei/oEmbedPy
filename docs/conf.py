@@ -14,6 +14,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "furo"
 html_static_path = ["_static"]
+html_extra_path = ["_extra"]
 
 # -- Options for Linkcheck output
 linkcheck_ignore = [
