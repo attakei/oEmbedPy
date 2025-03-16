@@ -18,6 +18,8 @@ from oembedpy import __version__
 from oembedpy.application import Oembed, Workspace
 from oembedpy.types import Content
 from sphinx.application import Sphinx
+from sphinx.addnodes import pending_xref
+from sphinx.builders import Builder
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 from sphinx.util.logging import getLogger
@@ -66,6 +68,19 @@ class OembedDomain(Domain):
         if "cache_age" not in content._extra:
             return True
         return now < content._extra["cache_age"]
+
+    def resolve_any_xref(
+        self,
+        env: BuildEnvironment,
+        fromdocname: str,
+        builder: Builder,
+        target: str,
+        node: pending_xref,
+        contnode: nodes.Element,
+    ) -> list[tuple[str, nodes.Element]]:
+        # NOTE: This domain will not resolve any cross-reference,
+        # because this does not have roles and directives that are refered by outside.
+        return []
 
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
