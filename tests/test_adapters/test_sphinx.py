@@ -47,11 +47,11 @@ def test_build_with_fallback(app: SphinxTestApp):  # noqa
 @pytest.mark.sphinx("html", testroot="default")
 def test_caches(app: SphinxTestApp):  # noqa
     app.build()
-    assert len(app.env.get_domain("oembedpy.adapters.sphinx").caches) == 3  # type: ignore[attr-defined]
+    assert len(app.env.get_domain("oembedpy").caches) == 3  # type: ignore[attr-defined]
 
 
 @pytest.mark.webtest
 @pytest.mark.sphinx("html", testroot="for-sphinx-cached")
 def test_use_caches(app: SphinxTestApp):  # noqa
     app.build()
-    assert len(app.env.get_domain("oembedpy.adapters.sphinx").caches) == 1  # type: ignore[attr-defined]
+    assert len(app.env.get_domain("oembedpy").caches) == 1  # type: ignore[attr-defined]
