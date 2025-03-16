@@ -28,7 +28,7 @@ logger = getLogger(__name__)
 
 
 class OembedDomain(Domain):
-    name = "oembed"
+    name = "oembedpy"
     label = "oembedpy"
 
     def __init__(self, env: BuildEnvironment):
