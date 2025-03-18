@@ -1,7 +1,9 @@
 """Sphinx extension module."""
 
+from __future__ import annotations
+
 from datetime import datetime
-from typing import Union, Tuple
+from typing import Union, Tuple, TYPE_CHECKING
 
 try:
     import sphinx  # noqa
@@ -14,15 +16,18 @@ except ModuleNotFoundError as err:
 
 from docutils import nodes
 from docutils.parsers.rst import Directive, directives
-from oembedpy import __version__
-from oembedpy.application import Oembed, Workspace
-from oembedpy.types import Content
-from sphinx.application import Sphinx
-from sphinx.addnodes import pending_xref
-from sphinx.builders import Builder
 from sphinx.domains import Domain
-from sphinx.environment import BuildEnvironment
 from sphinx.util.logging import getLogger
+
+from .. import __version__
+from ..application import Oembed, Workspace
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
+    from sphinx.addnodes import pending_xref
+    from sphinx.builders import Builder
+    from sphinx.environment import BuildEnvironment
+    from ..types import Content
 
 logger = getLogger(__name__)
 
