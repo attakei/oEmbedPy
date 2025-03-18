@@ -2,6 +2,16 @@
 Change logs
 ===========
 
+v0.8.1
+======
+
+:date: 2025-03-19 (Asia/Tokyo)
+
+Fixes
+-----
+
+* [Sphinx adapter] Implement func for cross-reference.
+
 v0.8.0
 ======
 

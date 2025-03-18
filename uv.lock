@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.13'",
@@ -914,7 +915,7 @@ wheels = [
 
 [[package]]
 name = "oembedpy"
-version = "0.8.0"
+version = "0.8.1"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -960,6 +961,7 @@ requires-dist = [
     { name = "platformdirs" },
     { name = "sphinx", marker = "extra == 'sphinx'", specifier = ">=7" },
 ]
+provides-extras = ["cli", "mkdocs", "sphinx"]
 
 [package.metadata.requires-dev]
 dev = [
