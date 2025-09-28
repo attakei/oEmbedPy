@@ -11,6 +11,9 @@ on:
   schedule:
     - cron: '0 9 * * 5'  # 18:00 on Friday JST
 
+env:
+  TASK_X_REMOTE_TASKFILES: 1
+
 jobs:
   lint:
     runs-on: ubuntu-latest
