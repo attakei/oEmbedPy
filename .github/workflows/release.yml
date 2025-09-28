@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+env:
+  TASK_X_REMOTE_TASKFILES: 1
+
 jobs:
   check-stage:
     runs-on: ubuntu-latest
@@ -17,8 +20,10 @@ jobs:
     needs: [check-stage]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
       - name: 'Build package'
         run: |
           uv build
