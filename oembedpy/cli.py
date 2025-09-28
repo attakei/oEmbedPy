@@ -78,7 +78,7 @@ def cli(
         data = content.to_dict()
         keylen = max(len(k) for k in data.keys()) + 2
         for k, v in data.items():
-            click.echo(f"{(k+':'):<{keylen}}{v}")
+            click.echo(f"{(k + ':'):<{keylen}}{v}")
 
 
 def main():
