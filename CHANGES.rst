@@ -2,6 +2,16 @@
 Change logs
 ===========
 
+v0.8.2
+======
+
+:date: 2025/09/28 (Asia/Tokyo)
+
+Others
+------
+
+* Fix usage
+
 v0.8.1
 ======
 
