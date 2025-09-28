@@ -34,6 +34,7 @@ Library
     >>> from oembedpy.application import Oembed
 
     >>> oembed = Oembed()
+    >>> oembed.init()
     >>> content = oembed.fetch("https://twitter.com/attakei")
     >>> print(content.type)
     rich
