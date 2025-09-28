@@ -1,0 +1,23 @@
+version: '3'
+
+includes:
+  contents:
+    taskfile: 'https://github.com/attakei/workspace-configs.git//projects/sphinx-doc/Taskfile.yaml?tag=v0.6.0'
+    flatten: true
+    vars:
+      RUN_PYTHON: 'uv run'
+      SPHINX_ROOT_DIR: ''
+      SPHINX_SOURCE_DIR: 'contents'
+      SPHINX_OUTPUT_DIR: 'build'
+      SPHINX_DEFAULT_BUILDER: 'dirrevealjs'
+
+tasks:
+  setup:
+    desc: 'Setup workspace'
+    cmds:
+      - 'uv sync --frozen --all-extras --all-groups'
+      - 'lefthook install'
+  verify:
+    desc: 'Verify environment by all procs'
+    cmds:
+      - 'lefthook run pre-commit --all-files'

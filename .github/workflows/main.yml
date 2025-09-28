@@ -15,11 +15,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
-      - name: 'Configure dependencies'
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
+      - name: Setup workspace
         run: |
-          uv sync --frozen --all-extras
+          task --yes setup
       - name: 'Run linters'
         run: |
           lefthook run pre-commit --all-files
@@ -31,8 +33,10 @@ jobs:
         python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
         workspace: ['locked', 'latest']
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
       - name: Set up Python ${{ matrix.python-version }}
         run: 'echo ${{ matrix.python-version }} > .python-version'
       - name: 'Configure env as locked deps by uv.lock'
@@ -47,8 +51,10 @@ jobs:
   buildtest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
       - name: Build
         run: |
           uv build
@@ -56,8 +62,10 @@ jobs:
   doctest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
       - name: Run tests
         run: |
           uv sync --frozen --all-extras
@@ -65,8 +73,10 @@ jobs:
   demotest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
       - name: Run tests
         run: |
           uv sync --frozen --all-extras
