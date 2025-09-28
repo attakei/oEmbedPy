@@ -1,0 +1,24 @@
+version: '3'
+
+vars:
+  # If you run bare environment or activated venv, set '' (blank string)
+  RUN_PYTHON: 'uv run'
+
+tasks:
+  setup-dev:
+    desc: 'Setup workspace'
+    cmds:
+      - 'uv sync --frozen --all-extras --all-groups'
+      - 'lefthook install'
+  release-*:
+    desc: 'Run release process'
+    vars:
+      VERSION: '{{index .MATCH 0}}'
+    cmds:
+      - 'age {{.VERSION}}'
+      - 'uv sync --all-extras --all-groups'  # To write out as lock-file
+  release:
+    desc: 'Run release process'
+    cmds:
+      - 'age update {{.CLI_ARGS}}'
+      - 'uv sync --all-extras --all-groups'  # To write out as lock-file

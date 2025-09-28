@@ -87,3 +87,9 @@ exclude = 'conf\.py$'
 [[tool.mypy.overrides]]
 module = ['bs4', 'docutils', 'docutils.*']
 ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "doc8>=1.1.2",
+    "ruff>=0.13.2",
+]
