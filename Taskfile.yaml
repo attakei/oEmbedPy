@@ -1,15 +1,14 @@
 version: '3'
 
 includes:
-  contents:
+  docs:
     taskfile: 'https://github.com/attakei/workspace-configs.git//projects/sphinx-doc/Taskfile.yaml?tag=v0.6.0'
-    flatten: true
     vars:
       RUN_PYTHON: 'uv run'
       SPHINX_ROOT_DIR: ''
-      SPHINX_SOURCE_DIR: 'contents'
+      SPHINX_SOURCE_DIR: 'docs'
       SPHINX_OUTPUT_DIR: 'build'
-      SPHINX_DEFAULT_BUILDER: 'dirrevealjs'
+      SPHINX_DEFAULT_BUILDER: 'dirhtml'
 
 tasks:
   setup:
