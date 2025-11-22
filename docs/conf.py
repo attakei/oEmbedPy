@@ -4,7 +4,7 @@ copyright = "2023, Kazuya Takei"
 author = "Kazuya Takei"
 
 extensions = [
-    "oembedpy.ext.sphinx",
+    "oembedpy.adapters.sphinx",
     "rst_package_refs.sphinx",
     "sphinx.ext.autodoc",
     "sphinx_toolbox.confval",
