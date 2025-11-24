@@ -55,3 +55,9 @@ def test_caches(app: SphinxTestApp):  # noqa
 def test_use_caches(app: SphinxTestApp):  # noqa
     app.build()
     assert len(app.env.get_domain("oembedpy").caches) == 1  # type: ignore[attr-defined]
+
+
+@pytest.mark.webtest
+@pytest.mark.sphinx("html", testroot="parallel", parallel=2)
+def test_build_parallel(app: SphinxTestApp, status):  # noqa
+    app.build()
