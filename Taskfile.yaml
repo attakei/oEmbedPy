@@ -20,3 +20,10 @@ tasks:
     desc: 'Verify environment by all procs'
     cmds:
       - 'lefthook run pre-commit --all-files'
+  release-*:
+    desc: 'Run release process'
+    vars:
+      LEVEL: '{{index .MATCH 0}}'
+    cmds:
+      - 'age {{.LEVEL}}'
+      - 'uv sync --all-extras' # To write out as lock-file
