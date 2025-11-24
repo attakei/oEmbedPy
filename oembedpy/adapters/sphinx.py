@@ -134,6 +134,6 @@ def setup(app: Sphinx):  # noqa: D103
     app.add_domain(OembedDomain)
     return {
         "version": __version__,
-        "parallel_read_safe": True,
+        "parallel_read_safe": False,
         "parallel_write_safe": True,
     }
