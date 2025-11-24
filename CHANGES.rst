@@ -2,6 +2,17 @@
 Change logs
 ===========
 
+v0.8.3
+======
+
+:Date: 2025-11-25 (Asia/Tokyo)
+
+Fixes
+-----
+
+* [Sphinx adapter] Remove flag that is read safe for parallel build.
+  This is hotfix until implement correctly.
+
 v0.8.2
 ======
 

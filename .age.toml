@@ -1,4 +1,4 @@
-current_version = "0.8.2"
+current_version = "0.8.3"
 
 [[files]]
 path = "oembedpy/__init__.py"
