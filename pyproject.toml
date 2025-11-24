@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "oEmbedPy"
-version = "0.8.2"
+version = "0.8.3"
 description = "oEmbed client for Python."
 readme = "README.rst"
 requires-python = ">=3.9"
@@ -50,25 +50,34 @@ sphinx = [
 
 [project.urls]
 Home = "https://github.com/attakei/oEmbedPy"
-Documentation = "https://oembedpy.readthedocs.io/en/v0.8.2/"
+Documentation = "https://oembedpy.readthedocs.io/en/v0.8.3/"
 
 [project.entry-points."mkdocs.plugins"]
 oembedpy = "oembedpy.adapters.mkdocs:OembedPlugin"
 
-[tool.uv]
-dev-dependencies = [
-  "sphinx[test]",
+[dependency-groups]
+dev = [
+  "esbonio>=0.16.5",
+  {include-group = "docs"},
+  {include-group = "lint"},
+  {include-group = "test"},
+]
+docs = [
   "furo",
-  "sphinx-toolbox",
   "rst-package-refs",
+  "sphinx-toolbox",
+]
+lint = [
+  "mypy>=1.11.2",
+  "lxml-stubs>=0.5.1",
+  "types-markdown>=3.7.0.20241204",
+]
+test = [
   "pytest>=7",
   "pytest-cov>=4",
   "pytest-httpx>=0.21",
   "pytest-mock>=3.14",
-  "mypy>=1.11.2",
-  "esbonio>=0.16.5",
-  "lxml-stubs>=0.5.1",
-  "types-markdown>=3.7.0.20241204",
+  "sphinx[test]",
 ]
 
 [tool.flit.module]

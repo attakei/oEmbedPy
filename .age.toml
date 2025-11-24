@@ -1,4 +1,4 @@
-current_version = "0.8.2"
+current_version = "0.8.3"
 
 [[files]]
 path = "oembedpy/__init__.py"
@@ -26,9 +26,9 @@ Change logs
 ===========
 
 v{{ new_version }}
-={% for _ in new_version %}={% endfor %}
+={{#sameLengthChars}}=@{{new_version}}{{/sameLengthChars}}
 
-:date: {{ now|date }} (Asia/Tokyo)
+:Date: {{ nowFormat.dateISO }} (Asia/Tokyo)
 
 Breaking changes
 ----------------

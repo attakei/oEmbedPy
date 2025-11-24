@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Union, Tuple, TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple, Union
 
 try:
     import sphinx  # noqa
@@ -23,10 +23,11 @@ from .. import __version__
 from ..application import Oembed, Workspace
 
 if TYPE_CHECKING:
-    from sphinx.application import Sphinx
     from sphinx.addnodes import pending_xref
+    from sphinx.application import Sphinx
     from sphinx.builders import Builder
     from sphinx.environment import BuildEnvironment
+
     from ..types import Content
 
 logger = getLogger(__name__)
@@ -133,6 +134,6 @@ def setup(app: Sphinx):  # noqa: D103
     app.add_domain(OembedDomain)
     return {
         "version": __version__,
-        "parallel_read_safe": True,
+        "parallel_read_safe": False,
         "parallel_write_safe": True,
     }
