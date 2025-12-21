@@ -1,7 +1,9 @@
 """For consumer request."""
 
 import logging
+import time
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Dict, Optional
 
 import httpx
@@ -48,6 +50,7 @@ def fetch_content(
     * OK: ``text/xml``
     * NG: ``text/plain`` (even if body is JSON string)
     """
+    now = time.mktime(time.localtime())
     resp = httpx.get(url, params=params.to_dict(), follow_redirects=True)
     resp.raise_for_status()
     content_type = resp.headers.get("content-type", "").split(";")[0]  # Exclude chaset
@@ -75,4 +78,6 @@ def fetch_content(
         if not fallback_type:
             raise err
         content = types.HtmlOnly.from_dict(data)
+    if content.cache_age:
+        content._expired = now + int(content.cache_age)
     return content
