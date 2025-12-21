@@ -93,6 +93,12 @@ class OembedDomain(Domain):
         return []
 
     def merge_domaindata(self, docnames: list[str], otherdata) -> None:
+        """Merge domain data from parallel builds.
+
+        This method merges cached oEmbed content from parallel build environments.
+        The merge strategy prioritizes entries with longer expiration times to ensure
+        the most up-to-date and longest-lived cached content is retained.
+        """
         other_caches = otherdata.get("caches", {})
         for cache_key, content in other_caches.items():
             if cache_key not in self.caches:
