@@ -72,7 +72,7 @@ class TestFor_OembedDomain__merge_domaindata:
 
     @pytest.mark.sphinx("html", testroot="default")
     def test_difference_items(self, app: SphinxTestApp):
-        domain1 = T.OembedDomain(app.env)
+        domain1 = T.OembedDomain(BuildEnvironment(app))
         domain1.caches[self.CACHE_KEY] = Link(type="link", version="1.0", _extra={})
         domain2 = T.OembedDomain(BuildEnvironment(app))
         domain2.caches[("http://example.com", 1, 2)] = Link(
@@ -83,7 +83,7 @@ class TestFor_OembedDomain__merge_domaindata:
 
     @pytest.mark.sphinx("html", testroot="default")
     def test_keep_main_domain(self, app: SphinxTestApp):
-        domain1 = T.OembedDomain(app.env)
+        domain1 = T.OembedDomain(BuildEnvironment(app))
         domain1.caches[self.CACHE_KEY] = Link(
             type="link", version="1.0", title="Hello", _extra={}
         )
@@ -99,7 +99,7 @@ class TestFor_OembedDomain__merge_domaindata:
 
     @pytest.mark.sphinx("html", testroot="default")
     def test_keep_overrides(self, app: SphinxTestApp):
-        domain1 = T.OembedDomain(app.env)
+        domain1 = T.OembedDomain(BuildEnvironment(app))
         link1 = Link(type="link", version="1.0", title="Hello", _extra={})
         link1._expired = 3600
         domain1.caches[self.CACHE_KEY] = link1
