@@ -7,7 +7,6 @@ import time
 from typing import Dict, Optional
 
 import httpx
-
 from platformdirs import PlatformDirs
 
 from oembedpy import consumer, discovery
