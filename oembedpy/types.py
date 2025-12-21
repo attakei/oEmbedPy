@@ -130,5 +130,14 @@ Content = Union[Photo, Video, Link, Rich, HtmlOnly]
 
 
 class CachedContent(NamedTuple):
+    """Content object with expired timestamp for cache.
+
+    .. deprecated:: 0.9.0
+
+       This is internal class for cache, so it keeps to avoid breaking cache data.
+       I will remove for v1.
+       Use :class:`Content` instead if you use in other projects.
+    """
+
     expired: float
     content: Content

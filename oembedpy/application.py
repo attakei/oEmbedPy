@@ -4,7 +4,7 @@ import json
 import logging
 import pickle
 import time
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 import httpx
 from platformdirs import PlatformDirs
@@ -20,7 +20,7 @@ class Oembed:
     """Application of oEmbed."""
 
     _registry: ProviderRegistry
-    _cache: Dict[consumer.RequestParameters, CachedContent]
+    _cache: Dict[consumer.RequestParameters, Union[Content, CachedContent]]
     _fallback_type: bool
 
     def __init__(self, fallback_type: bool = False):  # noqa: D107
@@ -51,11 +51,17 @@ class Oembed:
             params.max_height = max_height
         #
         now = time.mktime(time.localtime())
-        if params in self._cache and now <= self._cache[params].expired:
-            return self._cache[params].content
+        if params in self._cache:
+            # For comptibility CachedContent
+            val = self._cache[params]
+            if isinstance(val, CachedContent):
+                if now <= val.expired:
+                    return val.content
+            elif now <= val._expired:
+                return val
         content = consumer.fetch_content(api_url, params, self._fallback_type)
         if content.cache_age:
-            self._cache[params] = CachedContent(now + int(content.cache_age), content)
+            self._cache[params] = content
         return content
 
 
