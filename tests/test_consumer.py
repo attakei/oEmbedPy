@@ -50,6 +50,7 @@ class TestFor_fetch_content:
         )
         assert isinstance(content, types.Video)
         assert content.author_name == "attakei"
+        assert content._expired == 0
 
     def test_xml_content(self, httpx_mock):
         httpx_mock.add_response(
@@ -127,3 +128,17 @@ class TestFor_fetch_content:
                     format="xml", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
                 ),
             )
+
+    def test_json_has_cache_age(self, httpx_mock):
+        resp_data = deepcopy(self.content_json)
+        resp_data["cache_age"] = "3600"
+        httpx_mock.add_response(json=resp_data)
+        content = consumer.fetch_content(
+            "https://www.youtube.com/oembed",
+            consumer.RequestParameters(
+                format="json", url="https://www.youtube.com/watch&v=Oyh8nuaLASA"
+            ),
+        )
+        assert isinstance(content, types.Video)
+        assert content.author_name == "attakei"
+        assert content._expired != 0

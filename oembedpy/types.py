@@ -60,6 +60,12 @@ class _Optionals:
     thumbnail_height: Optional[int] = None
 
 
+class _Internals:
+    """Fields of internal parameters for any types."""
+
+    _expired: int = 0
+
+
 @dataclass
 class _Photo:
     """Required fields for ``photo`` types."""
@@ -95,27 +101,27 @@ class _HtmlOnly(_BaseType):
 
 
 @dataclass
-class Photo(_Optionals, _Photo, _Required):
+class Photo(_Internals, _Optionals, _Photo, _Required):
     """oEmbed content for photo object."""
 
 
 @dataclass
-class Video(_Optionals, _Video, _Required):
+class Video(_Internals, _Optionals, _Video, _Required):
     """oEmbed content for vhoto object."""
 
 
 @dataclass
-class Link(_Optionals, _Required):
+class Link(_Internals, _Optionals, _Required):
     """oEmbed content for generic object."""
 
 
 @dataclass
-class Rich(_Optionals, _Rich, _Required):
+class Rich(_Internals, _Optionals, _Rich, _Required):
     """oEmbed content for rich HTML object."""
 
 
 @dataclass
-class HtmlOnly(_Optionals, _HtmlOnly):
+class HtmlOnly(_Internals, _Optionals, _HtmlOnly):
     """Fallback type for invalid scheme."""
 
 
@@ -124,5 +130,14 @@ Content = Union[Photo, Video, Link, Rich, HtmlOnly]
 
 
 class CachedContent(NamedTuple):
+    """Content object with expired timestamp for cache.
+
+    .. deprecated:: 0.9.0
+
+       This is internal class for cache, so it keeps to avoid breaking cache data.
+       I will remove for v1.
+       Use :class:`Content` instead if you use in other projects.
+    """
+
     expired: float
     content: Content

@@ -71,6 +71,10 @@ class OembedDomain(Domain):
         if key not in self.caches:
             return False
         content: Content = self.caches[key]
+        if hasattr(
+            content, "_expired"
+        ):  # NOTE: For if pickled object does not have _expired.
+            return now < content._expired
         if "cache_age" not in content._extra:
             return True
         return now < content._extra["cache_age"]
