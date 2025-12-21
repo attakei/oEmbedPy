@@ -4,7 +4,11 @@ from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
+from sphinx.environment import BuildEnvironment
 from sphinx.testing.util import SphinxTestApp
+
+from oembedpy.adapters import sphinx as T
+from oembedpy.types import Link
 
 
 @pytest.fixture(scope="module")
@@ -61,3 +65,48 @@ def test_use_caches(app: SphinxTestApp):  # noqa
 @pytest.mark.sphinx("html", testroot="parallel", parallel=2)
 def test_build_parallel(app: SphinxTestApp, status):  # noqa
     app.build()
+
+
+class TestFor_OembedDomain__merge_domaindata:
+    CACHE_KEY = ("http://example.com", 1, 1)
+
+    @pytest.mark.sphinx("html", testroot="default")
+    def test_difference_items(self, app: SphinxTestApp):
+        domain1 = T.OembedDomain(app.env)
+        domain1.caches[self.CACHE_KEY] = Link(type="link", version="1.0", _extra={})
+        domain2 = T.OembedDomain(BuildEnvironment(app))
+        domain2.caches[("http://example.com", 1, 2)] = Link(
+            type="link", version="1.0", _extra={}
+        )
+        domain1.merge_domaindata([], domain2.data)
+        assert len(domain1.caches) == 2
+
+    @pytest.mark.sphinx("html", testroot="default")
+    def test_keep_main_domain(self, app: SphinxTestApp):
+        domain1 = T.OembedDomain(app.env)
+        domain1.caches[self.CACHE_KEY] = Link(
+            type="link", version="1.0", title="Hello", _extra={}
+        )
+        domain2 = T.OembedDomain(BuildEnvironment(app))
+        domain2.caches[self.CACHE_KEY] = Link(
+            type="link", version="1.0", title="World", _extra={}
+        )
+        print(domain1.caches)
+        domain1.merge_domaindata([], domain2.data)
+        assert len(domain1.caches) == 1
+        print(domain1.caches)
+        assert domain1.caches[self.CACHE_KEY].title == "Hello"
+
+    @pytest.mark.sphinx("html", testroot="default")
+    def test_keep_overrides(self, app: SphinxTestApp):
+        domain1 = T.OembedDomain(app.env)
+        link1 = Link(type="link", version="1.0", title="Hello", _extra={})
+        link1._expired = 3600
+        domain1.caches[self.CACHE_KEY] = link1
+        domain2 = T.OembedDomain(BuildEnvironment(app))
+        link2 = Link(type="link", version="1.0", title="World", _extra={})
+        link2._expired = 3601
+        domain2.caches[self.CACHE_KEY] = link2
+        domain1.merge_domaindata([], domain2.data)
+        assert len(domain1.caches) == 1
+        assert domain1.caches[("http://example.com", 1, 1)].title == "World"

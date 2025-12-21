@@ -92,6 +92,16 @@ class OembedDomain(Domain):
         # because this does not have roles and directives that are refered by outside.
         return []
 
+    def merge_domaindata(self, docnames: list[str], otherdata) -> None:
+        other_caches = otherdata.get("caches", {})
+        for cache_key, content in other_caches.items():
+            if cache_key not in self.caches:
+                self.caches[cache_key] = content
+                continue
+            exist = self.caches[cache_key]
+            if content._expired > exist._expired:
+                self.caches[cache_key] = content
+
 
 class oembed(nodes.General, nodes.Element):  # noqa: D101,E501
     pass
@@ -138,6 +148,6 @@ def setup(app: Sphinx):  # noqa: D103
     app.add_domain(OembedDomain)
     return {
         "version": __version__,
-        "parallel_read_safe": False,
+        "parallel_read_safe": True,
         "parallel_write_safe": True,
     }
