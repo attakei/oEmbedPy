@@ -2,6 +2,22 @@
 Change logs
 ===========
 
+v0.9.0
+======
+
+:Date: 2025-12-28 (Asia/Tokyo)
+
+Features
+--------
+
+* [sphinx adapter] Support parallel build.
+* [internal] Update logic to manage caches.
+
+Others
+------
+
+* Clean up warnings about build docs excluded for deprecated module.
+
 v0.8.3
 ======
 
